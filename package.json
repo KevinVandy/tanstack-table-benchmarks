@@ -5,13 +5,15 @@
   "packageManager": "pnpm@10.20.0",
   "scripts": {
     "install:examples": "pnpm install",
-    "bench:memory": "tsx scripts/run-memory-bench.ts"
+    "bench:memory": "tsx scripts/run-memory-bench.ts",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "playwright": "^1.56.1",
     "tsx": "^4.21.0"
   },
   "devDependencies": {
-    "@types/node": "^25.9.3"
+    "@types/node": "^25.9.3",
+    "typescript": "^6.0.3"
   }
 }

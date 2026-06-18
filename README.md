@@ -26,17 +26,70 @@ pnpm bench:memory
 Useful flags:
 
 ```sh
-pnpm bench:memory -- --iterations 20 --rows 50000 --columns 1000 --overscan 5
+pnpm bench:memory -- --iterations 5 --overscan 5
 ```
 
-The runner builds each independent example, starts `vite preview` for one example at a time, opens it in a fresh Chromium context, forces GC through Chrome DevTools Protocol, and records:
+Run only one benchmark group:
 
-- `JSHeapUsedSize`
-- `JSHeapTotalSize`
+```sh
+pnpm bench:memory -- --benchmark rows
+pnpm bench:memory -- --benchmark columns
+```
+
+Capture beginning/end heap snapshots for the first iteration of each v8/v9/config combination:
+
+```sh
+pnpm bench:memory -- --heapSnapshots true
+```
+
+By default snapshots are captured only for configs with at most `10,000` estimated cells, because large browser heap snapshots can be multiple GB and impractical to create or parse locally. Adjust with:
+
+```sh
+pnpm bench:memory -- --heapSnapshots true --maxSnapshotCells 100000
+```
+
+Smooth scroll phases are captured only for configs with at most `1,000,000` estimated cells by default. Larger configs still record initial and instant-scroll phases, plus a `smooth-scroll-skipped` marker. Adjust with:
+
+```sh
+pnpm bench:memory -- --maxSmoothScrollCells 10000000
+```
+
+The runner builds each independent example, starts `vite preview` for one example at a time, opens it in a fresh Chromium context, and records:
+
+- `JSHeapUsedSize` before forced GC
+- `JSHeapUsedSize` after forced GC
+- memory reclaimed by forced GC
 - DOM document, node, and event listener counts
+- rendered row and cell counts for equivalence checks
 
-Results are written to `results/*.json` and `results/*.csv`.
+It measures these phases:
+
+- `initial`
+- `instant-middle-scroll`
+- `instant-end-scroll`
+- `smooth-middle-scroll`
+- `smooth-end-scroll`
+
+Results are written to `results/*.json`, `results/*.csv`, and `results/*.html`.
 
 ## Notes
 
 The examples intentionally use the same React, React DOM, TanStack Virtual, Vite, and deterministic data generator. The main intended variable is `@tanstack/react-table` v8 versus v9.
+
+Default sample size is `5` iterations.
+
+Default dimensions:
+
+Rows benchmark:
+
+- `10` rows x `8` columns
+- `1,000` rows x `8` columns
+- `100,000` rows x `8` columns
+- `1,000,000` rows x `8` columns
+
+Columns benchmark:
+
+- `10` rows x `10` columns
+- `100` rows x `100` columns
+- `100` rows x `1,000` columns
+- `100` rows x `10,000` columns
