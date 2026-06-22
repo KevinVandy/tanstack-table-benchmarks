@@ -11,7 +11,12 @@ declare global {
   }
 }
 
-type BenchmarkKind = "all" | "rows" | "columns";
+type BenchmarkKind =
+  | "all"
+  | "rows"
+  | "columns"
+  | "paginated-rows"
+  | "kitchen-sink";
 
 interface CliOptions {
   benchmark: BenchmarkKind;
@@ -69,8 +74,10 @@ interface Result extends Measurement {
 }
 
 interface SnapshotObjectSummary {
+  averageSelfSizeMb: number;
   count: number;
   name: string;
+  scoreMb: number;
   selfSizeMb: number;
   type: string;
 }
@@ -138,6 +145,30 @@ const examples: Example[] = [
     path: "examples/v9/virtualized-columns",
     version: "v9",
   },
+  {
+    kind: "paginated-rows",
+    name: "v8/paginated-rows",
+    path: "examples/v8/paginated-rows",
+    version: "v8",
+  },
+  {
+    kind: "paginated-rows",
+    name: "v9/paginated-rows",
+    path: "examples/v9/paginated-rows",
+    version: "v9",
+  },
+  {
+    kind: "kitchen-sink",
+    name: "v8/kitchen-sink",
+    path: "examples/v8/kitchen-sink",
+    version: "v8",
+  },
+  {
+    kind: "kitchen-sink",
+    name: "v9/kitchen-sink",
+    path: "examples/v9/kitchen-sink",
+    version: "v9",
+  },
 ];
 
 const benchmarkConfigs: BenchmarkConfig[] = [
@@ -145,6 +176,44 @@ const benchmarkConfigs: BenchmarkConfig[] = [
   { columns: 8, kind: "rows", name: "rows-1000x8", rows: 1_000 },
   { columns: 8, kind: "rows", name: "rows-100000x8", rows: 100_000 },
   { columns: 8, kind: "rows", name: "rows-1000000x8", rows: 1_000_000 },
+  { columns: 8, kind: "paginated-rows", name: "paginated-rows-10x8", rows: 10 },
+  {
+    columns: 8,
+    kind: "paginated-rows",
+    name: "paginated-rows-1000x8",
+    rows: 1_000,
+  },
+  {
+    columns: 8,
+    kind: "paginated-rows",
+    name: "paginated-rows-100000x8",
+    rows: 100_000,
+  },
+  {
+    columns: 8,
+    kind: "paginated-rows",
+    name: "paginated-rows-1000000x8",
+    rows: 1_000_000,
+  },
+  { columns: 8, kind: "kitchen-sink", name: "kitchen-sink-10x8", rows: 10 },
+  {
+    columns: 8,
+    kind: "kitchen-sink",
+    name: "kitchen-sink-1000x8",
+    rows: 1_000,
+  },
+  {
+    columns: 8,
+    kind: "kitchen-sink",
+    name: "kitchen-sink-100000x8",
+    rows: 100_000,
+  },
+  {
+    columns: 8,
+    kind: "kitchen-sink",
+    name: "kitchen-sink-1000000x8",
+    rows: 1_000_000,
+  },
   { columns: 10, kind: "columns", name: "columns-10x10", rows: 10 },
   { columns: 100, kind: "columns", name: "columns-100x100", rows: 100 },
   { columns: 1_000, kind: "columns", name: "columns-100x1000", rows: 100 },
@@ -176,7 +245,11 @@ const readBooleanFlag = (name: keyof CliOptions, fallback: boolean) => {
 const readBenchmarkFlag = (): BenchmarkKind => {
   const index = process.argv.indexOf("--benchmark");
   const value = index === -1 ? "all" : process.argv[index + 1];
-  return value === "rows" || value === "columns" || value === "all"
+  return value === "rows" ||
+    value === "columns" ||
+    value === "paginated-rows" ||
+    value === "kitchen-sink" ||
+    value === "all"
     ? value
     : "all";
 };
@@ -259,6 +332,7 @@ const sanitizeFilePart = (value: string) =>
 const collect = async ({
   browser,
   captureSnapshots,
+  interaction,
   label,
   snapshotBaseName,
   snapshotDir,
@@ -267,6 +341,7 @@ const collect = async ({
 }: {
   browser: Browser;
   captureSnapshots: boolean;
+  interaction: "pagination" | "scroll";
   label: string;
   runSmoothScroll: boolean;
   snapshotBaseName: string;
@@ -351,25 +426,46 @@ const collect = async ({
 
   await measure("initial", "beginning");
 
-  await scroll(page, 0.5, 0.5);
-  await measure("instant-middle-scroll");
+  if (interaction === "pagination") {
+    await clickPaginationButton(page, "next-page");
+    await measure("next-page");
 
-  await scroll(page, 1, 1);
-  await measure("instant-end-scroll");
-
-  if (runSmoothScroll) {
-    await scroll(page, 0, 0);
-    await smoothScroll(page, 0.5, 0.5, options.smoothScrollSteps);
-    await measure("smooth-middle-scroll");
-
-    await smoothScroll(page, 1, 1, options.smoothScrollSteps);
-    await measure("smooth-end-scroll", "end");
+    await clickPaginationButton(page, "last-page");
+    await measure("last-page", "end");
   } else {
-    await measure("smooth-scroll-skipped", "end");
+    await scroll(page, 0.5, 0.5);
+    await measure("instant-middle-scroll");
+
+    await scroll(page, 1, 1);
+    await measure("instant-end-scroll");
+
+    if (runSmoothScroll) {
+      await scroll(page, 0, 0);
+      await smoothScroll(page, 0.5, 0.5, options.smoothScrollSteps);
+      await measure("smooth-middle-scroll");
+
+      await smoothScroll(page, 1, 1, options.smoothScrollSteps);
+      await measure("smooth-end-scroll", "end");
+    } else {
+      await measure("smooth-scroll-skipped", "end");
+    }
   }
 
   await context.close();
   return { measurements, snapshots };
+};
+
+const clickPaginationButton = async (page: Page, testId: string) => {
+  const button = page.getByTestId(testId);
+  const isDisabled = await button.evaluate(
+    (element) => element instanceof HTMLButtonElement && element.disabled,
+  );
+
+  if (!isDisabled) {
+    await button.click();
+  }
+
+  await page.waitForTimeout(250);
 };
 
 const scroll = async (page: Page, xRatio: number, yRatio: number) => {
@@ -462,8 +558,10 @@ const analyzeHeapSnapshot = (file: string): SnapshotReport => {
       rows: 0,
       topObjects: [
         {
+          averageSelfSizeMb: toMb(fileSize),
           count: 1,
           name: `Snapshot is ${toMb(fileSize)} on disk; skip in-process JSON analysis`,
+          scoreMb: toMb(fileSize),
           selfSizeMb: toMb(fileSize),
           type: "snapshot-file",
         },
@@ -498,8 +596,10 @@ const analyzeHeapSnapshot = (file: string): SnapshotReport => {
     const selfSize = snapshot.nodes[index + selfSizeIndex] ?? 0;
     const key = `${type}:${name}`;
     const current = totals.get(key) ?? {
+      averageSelfSizeMb: 0,
       count: 0,
       name,
+      scoreMb: 0,
       selfSizeMb: 0,
       type,
     };
@@ -521,10 +621,14 @@ const analyzeHeapSnapshot = (file: string): SnapshotReport => {
     topObjects: [...totals.values()]
       .map((item) => ({
         ...item,
+        averageSelfSizeMb: Number(
+          (item.selfSizeMb / Math.max(item.count, 1)).toFixed(6),
+        ),
+        scoreMb: Number(item.selfSizeMb.toFixed(2)),
         selfSizeMb: Number(item.selfSizeMb.toFixed(2)),
       }))
-      .sort((a, b) => b.selfSizeMb - a.selfSizeMb)
-      .slice(0, 25),
+      .sort((a, b) => b.scoreMb - a.scoreMb)
+      .slice(0, 10),
     totalSelfSizeMb: toMb(totalSelfSize),
     version: "v8",
   };
@@ -666,6 +770,165 @@ const escapeHtml = (value: unknown) =>
 const formatMb = (value: number) => `${value.toFixed(2)} MB`;
 const formatPercent = (value: number) => `${value.toFixed(1)}%`;
 
+const formatCompactNumber = (value: number) => {
+  if (value >= 1_000_000) {
+    return `${Number((value / 1_000_000).toFixed(1))}M`;
+  }
+  if (value >= 1_000) {
+    return `${Number((value / 1_000).toFixed(1))}K`;
+  }
+  return String(value);
+};
+
+const benchmarkDisplayNames: Record<string, string> = {
+  columns: "virtualized columns",
+  "kitchen-sink": "kitchen sink",
+  "paginated-rows": "paginated rows",
+  rows: "virtualized rows",
+};
+
+const formatBenchmarkName = (benchmark: string) =>
+  benchmarkDisplayNames[benchmark] ?? benchmark;
+
+const getFinalPhase = (benchmark: string) =>
+  benchmark === "rows"
+    ? ["smooth-end-scroll", "smooth-scroll-skipped"]
+    : benchmark === "columns"
+      ? ["smooth-end-scroll"]
+      : ["last-page"];
+
+const getLinearChartStep = (maxValue: number) => {
+  if (maxValue <= 10) return 1;
+  if (maxValue <= 50) return 10;
+  if (maxValue <= 100) return 20;
+  if (maxValue <= 500) return 100;
+  return 500;
+};
+
+const toVersionMemoryCharts = ({
+  phaseLabel,
+  phaseSelector,
+  summary,
+  title,
+}: {
+  phaseLabel: string;
+  phaseSelector: (row: Summary[number]) => boolean;
+  summary: Summary;
+  title: string;
+}) => {
+  const chartRows = summary
+    .filter(phaseSelector)
+    .map((row) => ({
+      benchmark: row.benchmark,
+      cells: row.rows * row.columns,
+      memoryMb: row.afterGcMedianMb,
+      version: row.version,
+    }))
+    .filter((row) => row.cells > 0 && row.memoryMb > 0);
+
+  if (!chartRows.length) {
+    return "";
+  }
+
+  const benchmarks = [...new Set(chartRows.map((row) => row.benchmark))].sort();
+  const width = 720;
+  const height = 390;
+  const margin = { bottom: 70, left: 72, right: 24, top: 24 };
+  const plotWidth = width - margin.left - margin.right;
+  const plotHeight = height - margin.top - margin.bottom;
+  const versionColors = {
+    v8: "#dc2626",
+    v9: "#2563eb",
+  };
+
+  const charts = benchmarks
+    .map((benchmark) => {
+      const rows = chartRows.filter((row) => row.benchmark === benchmark);
+      const cellValues = [...new Set(rows.map((row) => row.cells))].sort(
+        (a, b) => a - b,
+      );
+      const maxMemory = Math.max(...rows.map((row) => row.memoryMb));
+      const step = getLinearChartStep(maxMemory);
+      const maxY = Math.ceil(maxMemory / step) * step;
+      const yTicks = Array.from(
+        { length: Math.floor(maxY / step) + 1 },
+        (_, index) => index * step,
+      );
+      const scaleX = (cells: number) => {
+        const index = cellValues.indexOf(cells);
+        return (
+          margin.left +
+          (cellValues.length === 1 ? 0.5 : index / (cellValues.length - 1)) *
+            plotWidth
+        );
+      };
+      const scaleY = (memoryMb: number) =>
+        margin.top + ((maxY - memoryMb) / (maxY || 1)) * plotHeight;
+      const series = (["v8", "v9"] as const).map((version) => ({
+        version,
+        points: rows
+          .filter((row) => row.version === version)
+          .sort((a, b) => a.cells - b.cells),
+      }));
+
+      return `<section class="chart-card">
+        <h3>${escapeHtml(formatBenchmarkName(benchmark))}</h3>
+        <svg class="memory-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="${escapeHtml(`${formatBenchmarkName(benchmark)} ${phaseLabel} memory usage`)}">
+          <rect x="0" y="0" width="${width}" height="${height}" fill="#ffffff" />
+          ${cellValues
+            .map(
+              (cells) => `<g>
+            <line class="grid-line" x1="${scaleX(cells).toFixed(1)}" y1="${margin.top}" x2="${scaleX(cells).toFixed(1)}" y2="${height - margin.bottom}" />
+            <text class="axis-label" x="${scaleX(cells).toFixed(1)}" y="${height - margin.bottom + 24}" text-anchor="middle">${formatCompactNumber(cells)}</text>
+          </g>`,
+            )
+            .join("\n")}
+          ${yTicks
+            .map(
+              (tick) => `<g>
+            <line class="grid-line" x1="${margin.left}" y1="${scaleY(tick).toFixed(1)}" x2="${width - margin.right}" y2="${scaleY(tick).toFixed(1)}" />
+            <text class="axis-label" x="${margin.left - 10}" y="${scaleY(tick).toFixed(1)}" dominant-baseline="middle" text-anchor="end">${formatCompactNumber(tick)}</text>
+          </g>`,
+            )
+            .join("\n")}
+          <line class="axis-line" x1="${margin.left}" y1="${height - margin.bottom}" x2="${width - margin.right}" y2="${height - margin.bottom}" />
+          <line class="axis-line" x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${height - margin.bottom}" />
+          <text class="axis-title" x="${margin.left + plotWidth / 2}" y="${height - 22}" text-anchor="middle">Cells (rows x columns)</text>
+          <text class="axis-title" transform="translate(20 ${margin.top + plotHeight / 2}) rotate(-90)" text-anchor="middle">Memory MB</text>
+          ${series
+            .map((item) => {
+              const points = item.points
+                .map(
+                  (point) =>
+                    `${scaleX(point.cells).toFixed(1)},${scaleY(point.memoryMb).toFixed(1)}`,
+                )
+                .join(" ");
+              return `<polyline class="chart-line" points="${points}" fill="none" stroke="${versionColors[item.version]}" stroke-width="3" />
+              ${item.points
+                .map(
+                  (point) => `<circle cx="${scaleX(point.cells).toFixed(1)}" cy="${scaleY(point.memoryMb).toFixed(1)}" r="4.5" fill="${versionColors[item.version]}">
+                <title>${item.version}: ${point.cells.toLocaleString()} cells, ${formatMb(point.memoryMb)}</title>
+              </circle>`,
+                )
+                .join("\n")}`;
+            })
+            .join("\n")}
+        </svg>
+      </section>`;
+    })
+    .join("\n");
+
+  return `<section class="chart-section">
+    <h2>${escapeHtml(title)}</h2>
+    <p class="chart-note">Phase: ${escapeHtml(phaseLabel)}. Each chart uses a linear memory axis and categorical cell-count positions so the v8/v9 gap is visible. Red is v8; blue is v9.</p>
+    <div class="version-legend">
+      <span><i style="background:${versionColors.v8}"></i>v8</span>
+      <span><i style="background:${versionColors.v9}"></i>v9</span>
+    </div>
+    <div class="chart-grid">${charts}</div>
+  </section>`;
+};
+
 const toHtml = ({
   comparisons,
   errors,
@@ -738,6 +1001,88 @@ const toHtml = ({
       .snapshot {
         margin-bottom: 40px;
       }
+      .chart-section {
+        margin: 32px 0 40px;
+        overflow-x: auto;
+      }
+      .chart-note {
+        color: #4b5563;
+        margin: -8px 0 16px;
+      }
+      .memory-chart {
+        border: 1px solid #e5e7eb;
+        display: block;
+        max-width: 1120px;
+        width: 100%;
+      }
+      .grid-line {
+        stroke: #e5e7eb;
+        stroke-width: 1;
+      }
+      .axis-line {
+        stroke: #111827;
+        stroke-width: 1.5;
+      }
+      .axis-label {
+        fill: #4b5563;
+        font-size: 12px;
+      }
+      .axis-title {
+        fill: #111827;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .chart-line {
+        vector-effect: non-scaling-stroke;
+      }
+      .chart-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+        margin: 12px 0 0;
+        max-width: 1120px;
+      }
+      .chart-legend span {
+        align-items: center;
+        color: #374151;
+        display: inline-flex;
+        font-size: 13px;
+        gap: 6px;
+      }
+      .chart-legend i {
+        display: inline-block;
+        height: 10px;
+        width: 18px;
+      }
+      .version-legend {
+        display: flex;
+        gap: 16px;
+        margin: 0 0 16px;
+      }
+      .version-legend span {
+        align-items: center;
+        display: inline-flex;
+        font-size: 14px;
+        font-weight: 600;
+        gap: 6px;
+      }
+      .version-legend i {
+        display: inline-block;
+        height: 10px;
+        width: 22px;
+      }
+      .chart-grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+        max-width: 1500px;
+      }
+      .chart-card {
+        min-width: 520px;
+      }
+      .chart-card h3 {
+        margin-bottom: 8px;
+      }
     </style>
   </head>
   <body>
@@ -784,6 +1129,20 @@ const toHtml = ({
         : "<p>No benchmark errors recorded.</p>"
     }
 
+    ${toVersionMemoryCharts({
+      phaseLabel: "initial",
+      phaseSelector: (row) => row.phase === "initial",
+      summary,
+      title: "Initial Retained Heap: v8 vs v9",
+    })}
+
+    ${toVersionMemoryCharts({
+      phaseLabel: "final interaction",
+      phaseSelector: (row) => getFinalPhase(row.benchmark).includes(row.phase),
+      summary,
+      title: "Final Interaction Retained Heap: v8 vs v9",
+    })}
+
     <h2>v9 vs v8 Median Retained JS Heap</h2>
     <table>
       <thead>
@@ -807,7 +1166,7 @@ const toHtml = ({
           .map(
             (row) => `<tr>
           <td>${escapeHtml(row.configName)}</td>
-          <td>${escapeHtml(row.benchmark)}</td>
+          <td>${escapeHtml(formatBenchmarkName(row.benchmark))}</td>
           <td>${escapeHtml(row.phase)}</td>
           <td>${row.rows.toLocaleString()}</td>
           <td>${row.columns.toLocaleString()}</td>
@@ -866,44 +1225,6 @@ const toHtml = ({
       </tbody>
     </table>
 
-    <h2>Heap Snapshot Object Reports</h2>
-    ${
-      snapshotReports.length
-        ? snapshotReports
-            .map(
-              (report) => `<section class="snapshot">
-      <h3>${escapeHtml(report.configName)} / ${escapeHtml(report.example)} / ${escapeHtml(report.phase)}</h3>
-      <div class="meta">
-        <span>Total self size: ${formatMb(report.totalSelfSizeMb)}</span>
-        <span>Snapshot: ${escapeHtml(report.file)}</span>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Name</th>
-            <th>Count</th>
-            <th>Self Size</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${report.topObjects
-            .map(
-              (object) => `<tr>
-            <td>${escapeHtml(object.type)}</td>
-            <td>${escapeHtml(object.name)}</td>
-            <td>${object.count.toLocaleString()}</td>
-            <td>${formatMb(object.selfSizeMb)}</td>
-          </tr>`,
-            )
-            .join("\n")}
-        </tbody>
-      </table>
-    </section>`,
-            )
-            .join("\n")
-        : "<p>No heap snapshots captured. Run with <code>--heapSnapshots true</code> to generate object reports.</p>"
-    }
   </body>
 </html>
 `;
@@ -945,6 +1266,9 @@ async function main() {
 
     mkdirSync("results", { recursive: true });
     const stamp = new Date().toISOString().replaceAll(":", "-");
+    const jsonPath = join("results", `memory-${stamp}.json`);
+    const csvPath = join("results", `memory-${stamp}.csv`);
+    const htmlPath = join("results", `memory-${stamp}.html`);
     const snapshotDir = join("results", `heap-snapshots-${stamp}`);
 
     if (options.heapSnapshots) {
@@ -957,6 +1281,34 @@ async function main() {
     const results: Result[] = [];
     const errors: BenchmarkError[] = [];
     const snapshotReports: SnapshotReport[] = [];
+    const writeReports = () => {
+      const summary = summarize(results);
+      const comparisons = compareV9ToV8(summary);
+
+      writeFileSync(
+        jsonPath,
+        JSON.stringify(
+          {
+            benchmarkConfigs,
+            comparisons,
+            errors,
+            options,
+            results,
+            snapshotReports,
+            summary,
+          },
+          null,
+          2,
+        ),
+      );
+      writeFileSync(csvPath, toCsv(results));
+      writeFileSync(
+        htmlPath,
+        toHtml({ comparisons, errors, options, snapshotReports, summary }),
+      );
+
+      return { comparisons, summary };
+    };
 
     for (const [index, example] of selectedExamples.entries()) {
       const port = options.port + index;
@@ -988,8 +1340,15 @@ async function main() {
                     options.heapSnapshots &&
                     iteration === 1 &&
                     estimatedCells <= options.maxSnapshotCells,
+                  interaction:
+                    example.kind === "paginated-rows" ||
+                    example.kind === "kitchen-sink"
+                      ? "pagination"
+                      : "scroll",
                   label,
                   runSmoothScroll:
+                    example.kind !== "paginated-rows" &&
+                    example.kind !== "kitchen-sink" &&
                     estimatedCells <= options.maxSmoothScrollCells,
                   snapshotBaseName,
                   snapshotDir,
@@ -1013,6 +1372,7 @@ async function main() {
                 url,
                 version: example.version,
               });
+              writeReports();
               continue;
             }
 
@@ -1033,7 +1393,10 @@ async function main() {
             for (const snapshot of snapshots) {
               const phase = snapshot.file.includes("-beginning.")
                 ? "initial"
-                : "smooth-end-scroll";
+                : example.kind === "paginated-rows" ||
+                    example.kind === "kitchen-sink"
+                  ? "last-page"
+                  : "smooth-end-scroll";
               snapshotReports.push({
                 ...snapshot,
                 benchmark: config.kind,
@@ -1045,6 +1408,8 @@ async function main() {
                 version: example.version,
               });
             }
+
+            writeReports();
           }
         }
       } finally {
@@ -1054,33 +1419,7 @@ async function main() {
 
     await browser.close();
 
-    const jsonPath = join("results", `memory-${stamp}.json`);
-    const csvPath = join("results", `memory-${stamp}.csv`);
-    const htmlPath = join("results", `memory-${stamp}.html`);
-    const summary = summarize(results);
-    const comparisons = compareV9ToV8(summary);
-
-    writeFileSync(
-      jsonPath,
-      JSON.stringify(
-        {
-          benchmarkConfigs,
-          comparisons,
-          errors,
-          options,
-          results,
-          snapshotReports,
-          summary,
-        },
-        null,
-        2,
-      ),
-    );
-    writeFileSync(csvPath, toCsv(results));
-    writeFileSync(
-      htmlPath,
-      toHtml({ comparisons, errors, options, snapshotReports, summary }),
-    );
+    const { comparisons } = writeReports();
 
     console.table(comparisons);
     console.log(`Wrote ${jsonPath}`);

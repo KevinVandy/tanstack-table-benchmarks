@@ -6,8 +6,12 @@ Each benchmark is an independent Vite example with its own `package.json`, mirro
 
 - `examples/v8/virtualized-rows`
 - `examples/v8/virtualized-columns`
+- `examples/v8/paginated-rows`
+- `examples/v8/kitchen-sink`
 - `examples/v9/virtualized-rows`
 - `examples/v9/virtualized-columns`
+- `examples/v9/paginated-rows`
+- `examples/v9/kitchen-sink`
 
 Shared deterministic data, config parsing, and CSS live in `shared/src`.
 
@@ -34,6 +38,8 @@ Run only one benchmark group:
 ```sh
 pnpm bench:memory -- --benchmark rows
 pnpm bench:memory -- --benchmark columns
+pnpm bench:memory -- --benchmark paginated-rows
+pnpm bench:memory -- --benchmark kitchen-sink
 ```
 
 Capture beginning/end heap snapshots for the first iteration of each v8/v9/config combination:
@@ -64,11 +70,19 @@ The runner builds each independent example, starts `vite preview` for one exampl
 
 It measures these phases:
 
+Virtualized examples:
+
 - `initial`
 - `instant-middle-scroll`
 - `instant-end-scroll`
 - `smooth-middle-scroll`
 - `smooth-end-scroll`
+
+Paginated examples:
+
+- `initial`
+- `next-page`
+- `last-page`
 
 Results are written to `results/*.json`, `results/*.csv`, and `results/*.html`.
 
@@ -81,6 +95,20 @@ Default sample size is `5` iterations.
 Default dimensions:
 
 Rows benchmark:
+
+- `10` rows x `8` columns
+- `1,000` rows x `8` columns
+- `100,000` rows x `8` columns
+- `1,000,000` rows x `8` columns
+
+Paginated rows benchmark:
+
+- `10` rows x `8` columns
+- `1,000` rows x `8` columns
+- `100,000` rows x `8` columns
+- `1,000,000` rows x `8` columns
+
+Kitchen sink benchmark:
 
 - `10` rows x `8` columns
 - `1,000` rows x `8` columns

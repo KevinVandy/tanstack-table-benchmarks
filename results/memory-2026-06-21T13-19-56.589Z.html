@@ -1,0 +1,4292 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TanStack Table Memory Benchmark Results</title>
+    <style>
+      body {
+        color: #111827;
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        margin: 32px;
+      }
+      h1,
+      h2,
+      h3 {
+        margin: 0 0 16px;
+      }
+      table {
+        border-collapse: collapse;
+        font-size: 14px;
+        margin-bottom: 32px;
+        min-width: 980px;
+        width: 100%;
+      }
+      th,
+      td {
+        border-bottom: 1px solid #e5e7eb;
+        padding: 8px 10px;
+        text-align: right;
+        white-space: nowrap;
+      }
+      th:first-child,
+      td:first-child,
+      th:nth-child(2),
+      td:nth-child(2),
+      th:nth-child(3),
+      td:nth-child(3) {
+        text-align: left;
+      }
+      th {
+        background: #f3f4f6;
+        color: #374151;
+        font-weight: 600;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .meta span {
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        padding: 6px 8px;
+      }
+      .ok {
+        color: #047857;
+        font-weight: 600;
+      }
+      .warn {
+        color: #b45309;
+        font-weight: 600;
+      }
+      .snapshot {
+        margin-bottom: 40px;
+      }
+
+      .chart-section {
+        margin: 32px 0 40px;
+        overflow-x: auto;
+      }
+      .chart-note {
+        color: #4b5563;
+        margin: -8px 0 16px;
+      }
+      .memory-chart {
+        border: 1px solid #e5e7eb;
+        display: block;
+        max-width: 1120px;
+        width: 100%;
+      }
+      .grid-line {
+        stroke: #e5e7eb;
+        stroke-width: 1;
+      }
+      .axis-line {
+        stroke: #111827;
+        stroke-width: 1.5;
+      }
+      .axis-label {
+        fill: #4b5563;
+        font-size: 12px;
+      }
+      .axis-title {
+        fill: #111827;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .chart-line {
+        vector-effect: non-scaling-stroke;
+      }
+      .chart-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+        margin: 12px 0 0;
+        max-width: 1120px;
+      }
+      .chart-legend span {
+        align-items: center;
+        color: #374151;
+        display: inline-flex;
+        font-size: 13px;
+        gap: 6px;
+      }
+      .chart-legend i {
+        display: inline-block;
+        height: 10px;
+        width: 18px;
+      }
+
+      .version-legend {
+        display: flex;
+        gap: 16px;
+        margin: 0 0 16px;
+      }
+      .version-legend span {
+        align-items: center;
+        display: inline-flex;
+        font-size: 14px;
+        font-weight: 600;
+        gap: 6px;
+      }
+      .version-legend i {
+        display: inline-block;
+        height: 10px;
+        width: 22px;
+      }
+      .chart-grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+        max-width: 1500px;
+      }
+      .chart-card {
+        min-width: 520px;
+      }
+      .chart-card h3 {
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>TanStack Table Memory Benchmark Results</h1>
+    <div class="meta">
+      <span>Iterations: 5</span>
+      <span>Overscan: 5</span>
+      <span>Smooth scroll steps: 40</span>
+      <span>Case timeout: 120,000 ms</span>
+      <span>Max smooth-scroll cells: 1,000,000</span>
+      <span>Heap snapshots: disabled</span>
+      <span>Max snapshot cells: 10,000</span>
+    </div>
+
+    <h2>Errors</h2>
+    <p>No benchmark errors recorded.</p>
+    <section class="chart-section">
+      <h2>Initial Retained Heap: v8 vs v9</h2>
+      <p class="chart-note">
+        Phase: initial. Each chart uses a linear memory axis and categorical
+        cell-count positions so the v8/v9 gap is visible. Red is v8; blue is v9.
+      </p>
+      <div class="version-legend">
+        <span><i style="background: #dc2626"></i>v8</span>
+        <span><i style="background: #2563eb"></i>v9</span>
+      </div>
+      <div class="chart-grid">
+        <section class="chart-card">
+          <h3>virtualized columns</h3>
+          <svg
+            class="memory-chart"
+            viewBox="0 0 720 390"
+            role="img"
+            aria-label="virtualized columns initial memory usage"
+          >
+            <rect x="0" y="0" width="720" height="390" fill="#ffffff" />
+            <g>
+              <line class="grid-line" x1="72.0" y1="24" x2="72.0" y2="320" />
+              <text class="axis-label" x="72.0" y="344" text-anchor="middle">
+                100
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="280.0" y1="24" x2="280.0" y2="320" />
+              <text class="axis-label" x="280.0" y="344" text-anchor="middle">
+                10K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="488.0" y1="24" x2="488.0" y2="320" />
+              <text class="axis-label" x="488.0" y="344" text-anchor="middle">
+                100K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="696.0" y1="24" x2="696.0" y2="320" />
+              <text class="axis-label" x="696.0" y="344" text-anchor="middle">
+                1M
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="320.0" x2="696" y2="320.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="320.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                0
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="221.3" x2="696" y2="221.3" />
+              <text
+                class="axis-label"
+                x="62"
+                y="221.3"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                100
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="122.7" x2="696" y2="122.7" />
+              <text
+                class="axis-label"
+                x="62"
+                y="122.7"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                200
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="24.0" x2="696" y2="24.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="24.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                300
+              </text>
+            </g>
+            <line class="axis-line" x1="72" y1="320" x2="696" y2="320" />
+            <line class="axis-line" x1="72" y1="24" x2="72" y2="320" />
+            <text class="axis-title" x="384" y="368" text-anchor="middle">
+              Cells (rows x columns)
+            </text>
+            <text
+              class="axis-title"
+              transform="translate(20 172) rotate(-90)"
+              text-anchor="middle"
+            >
+              Memory MB
+            </text>
+            <polyline
+              class="chart-line"
+              points="72.0,317.8 280.0,314.8 488.0,294.5 696.0,92.6"
+              fill="none"
+              stroke="#dc2626"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="317.8" r="4.5" fill="#dc2626">
+              <title>v8: 100 cells, 2.24 MB</title>
+            </circle>
+            <circle cx="280.0" cy="314.8" r="4.5" fill="#dc2626">
+              <title>v8: 10,000 cells, 5.31 MB</title>
+            </circle>
+            <circle cx="488.0" cy="294.5" r="4.5" fill="#dc2626">
+              <title>v8: 100,000 cells, 25.82 MB</title>
+            </circle>
+            <circle cx="696.0" cy="92.6" r="4.5" fill="#dc2626">
+              <title>v8: 1,000,000 cells, 230.47 MB</title>
+            </circle>
+            <polyline
+              class="chart-line"
+              points="72.0,317.8 280.0,316.2 488.0,309.4 696.0,240.8"
+              fill="none"
+              stroke="#2563eb"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="317.8" r="4.5" fill="#2563eb">
+              <title>v9: 100 cells, 2.24 MB</title>
+            </circle>
+            <circle cx="280.0" cy="316.2" r="4.5" fill="#2563eb">
+              <title>v9: 10,000 cells, 3.83 MB</title>
+            </circle>
+            <circle cx="488.0" cy="309.4" r="4.5" fill="#2563eb">
+              <title>v9: 100,000 cells, 10.73 MB</title>
+            </circle>
+            <circle cx="696.0" cy="240.8" r="4.5" fill="#2563eb">
+              <title>v9: 1,000,000 cells, 80.24 MB</title>
+            </circle>
+          </svg>
+        </section>
+        <section class="chart-card">
+          <h3>kitchen sink</h3>
+          <svg
+            class="memory-chart"
+            viewBox="0 0 720 390"
+            role="img"
+            aria-label="kitchen sink initial memory usage"
+          >
+            <rect x="0" y="0" width="720" height="390" fill="#ffffff" />
+            <g>
+              <line class="grid-line" x1="72.0" y1="24" x2="72.0" y2="320" />
+              <text class="axis-label" x="72.0" y="344" text-anchor="middle">
+                80
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="280.0" y1="24" x2="280.0" y2="320" />
+              <text class="axis-label" x="280.0" y="344" text-anchor="middle">
+                8K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="488.0" y1="24" x2="488.0" y2="320" />
+              <text class="axis-label" x="488.0" y="344" text-anchor="middle">
+                800K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="696.0" y1="24" x2="696.0" y2="320" />
+              <text class="axis-label" x="696.0" y="344" text-anchor="middle">
+                8M
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="320.0" x2="696" y2="320.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="320.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                0
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="270.7" x2="696" y2="270.7" />
+              <text
+                class="axis-label"
+                x="62"
+                y="270.7"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                500
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="221.3" x2="696" y2="221.3" />
+              <text
+                class="axis-label"
+                x="62"
+                y="221.3"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                1K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="172.0" x2="696" y2="172.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="172.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                1.5K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="122.7" x2="696" y2="122.7" />
+              <text
+                class="axis-label"
+                x="62"
+                y="122.7"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                2K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="73.3" x2="696" y2="73.3" />
+              <text
+                class="axis-label"
+                x="62"
+                y="73.3"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                2.5K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="24.0" x2="696" y2="24.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="24.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                3K
+              </text>
+            </g>
+            <line class="axis-line" x1="72" y1="320" x2="696" y2="320" />
+            <line class="axis-line" x1="72" y1="24" x2="72" y2="320" />
+            <text class="axis-title" x="384" y="368" text-anchor="middle">
+              Cells (rows x columns)
+            </text>
+            <text
+              class="axis-title"
+              transform="translate(20 172) rotate(-90)"
+              text-anchor="middle"
+            >
+              Memory MB
+            </text>
+            <polyline
+              class="chart-line"
+              points="72.0,319.8 280.0,319.5 488.0,293.1 696.0,52.6"
+              fill="none"
+              stroke="#dc2626"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.8" r="4.5" fill="#dc2626">
+              <title>v8: 80 cells, 2.18 MB</title>
+            </circle>
+            <circle cx="280.0" cy="319.5" r="4.5" fill="#dc2626">
+              <title>v8: 8,000 cells, 4.96 MB</title>
+            </circle>
+            <circle cx="488.0" cy="293.1" r="4.5" fill="#dc2626">
+              <title>v8: 800,000 cells, 272.83 MB</title>
+            </circle>
+            <circle cx="696.0" cy="52.6" r="4.5" fill="#dc2626">
+              <title>v8: 8,000,000 cells, 2710.31 MB</title>
+            </circle>
+            <polyline
+              class="chart-line"
+              points="72.0,319.8 280.0,319.7 488.0,316.4 696.0,285.5"
+              fill="none"
+              stroke="#2563eb"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.8" r="4.5" fill="#2563eb">
+              <title>v9: 80 cells, 2.38 MB</title>
+            </circle>
+            <circle cx="280.0" cy="319.7" r="4.5" fill="#2563eb">
+              <title>v9: 8,000 cells, 2.79 MB</title>
+            </circle>
+            <circle cx="488.0" cy="316.4" r="4.5" fill="#2563eb">
+              <title>v9: 800,000 cells, 36.91 MB</title>
+            </circle>
+            <circle cx="696.0" cy="285.5" r="4.5" fill="#2563eb">
+              <title>v9: 8,000,000 cells, 349.22 MB</title>
+            </circle>
+          </svg>
+        </section>
+        <section class="chart-card">
+          <h3>paginated rows</h3>
+          <svg
+            class="memory-chart"
+            viewBox="0 0 720 390"
+            role="img"
+            aria-label="paginated rows initial memory usage"
+          >
+            <rect x="0" y="0" width="720" height="390" fill="#ffffff" />
+            <g>
+              <line class="grid-line" x1="72.0" y1="24" x2="72.0" y2="320" />
+              <text class="axis-label" x="72.0" y="344" text-anchor="middle">
+                80
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="280.0" y1="24" x2="280.0" y2="320" />
+              <text class="axis-label" x="280.0" y="344" text-anchor="middle">
+                8K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="488.0" y1="24" x2="488.0" y2="320" />
+              <text class="axis-label" x="488.0" y="344" text-anchor="middle">
+                800K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="696.0" y1="24" x2="696.0" y2="320" />
+              <text class="axis-label" x="696.0" y="344" text-anchor="middle">
+                8M
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="320.0" x2="696" y2="320.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="320.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                0
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="270.7" x2="696" y2="270.7" />
+              <text
+                class="axis-label"
+                x="62"
+                y="270.7"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                500
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="221.3" x2="696" y2="221.3" />
+              <text
+                class="axis-label"
+                x="62"
+                y="221.3"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                1K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="172.0" x2="696" y2="172.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="172.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                1.5K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="122.7" x2="696" y2="122.7" />
+              <text
+                class="axis-label"
+                x="62"
+                y="122.7"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                2K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="73.3" x2="696" y2="73.3" />
+              <text
+                class="axis-label"
+                x="62"
+                y="73.3"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                2.5K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="24.0" x2="696" y2="24.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="24.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                3K
+              </text>
+            </g>
+            <line class="axis-line" x1="72" y1="320" x2="696" y2="320" />
+            <line class="axis-line" x1="72" y1="24" x2="72" y2="320" />
+            <text class="axis-title" x="384" y="368" text-anchor="middle">
+              Cells (rows x columns)
+            </text>
+            <text
+              class="axis-title"
+              transform="translate(20 172) rotate(-90)"
+              text-anchor="middle"
+            >
+              Memory MB
+            </text>
+            <polyline
+              class="chart-line"
+              points="72.0,319.8 280.0,319.5 488.0,293.1 696.0,52.6"
+              fill="none"
+              stroke="#dc2626"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.8" r="4.5" fill="#dc2626">
+              <title>v8: 80 cells, 1.93 MB</title>
+            </circle>
+            <circle cx="280.0" cy="319.5" r="4.5" fill="#dc2626">
+              <title>v8: 8,000 cells, 4.71 MB</title>
+            </circle>
+            <circle cx="488.0" cy="293.1" r="4.5" fill="#dc2626">
+              <title>v8: 800,000 cells, 272.58 MB</title>
+            </circle>
+            <circle cx="696.0" cy="52.6" r="4.5" fill="#dc2626">
+              <title>v8: 8,000,000 cells, 2710.06 MB</title>
+            </circle>
+            <polyline
+              class="chart-line"
+              points="72.0,319.8 280.0,319.8 488.0,317.3 696.0,294.6"
+              fill="none"
+              stroke="#2563eb"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.8" r="4.5" fill="#2563eb">
+              <title>v9: 80 cells, 1.91 MB</title>
+            </circle>
+            <circle cx="280.0" cy="319.8" r="4.5" fill="#2563eb">
+              <title>v9: 8,000 cells, 2.22 MB</title>
+            </circle>
+            <circle cx="488.0" cy="317.3" r="4.5" fill="#2563eb">
+              <title>v9: 800,000 cells, 27.28 MB</title>
+            </circle>
+            <circle cx="696.0" cy="294.6" r="4.5" fill="#2563eb">
+              <title>v9: 8,000,000 cells, 257.19 MB</title>
+            </circle>
+          </svg>
+        </section>
+        <section class="chart-card">
+          <h3>virtualized rows</h3>
+          <svg
+            class="memory-chart"
+            viewBox="0 0 720 390"
+            role="img"
+            aria-label="virtualized rows initial memory usage"
+          >
+            <rect x="0" y="0" width="720" height="390" fill="#ffffff" />
+            <g>
+              <line class="grid-line" x1="72.0" y1="24" x2="72.0" y2="320" />
+              <text class="axis-label" x="72.0" y="344" text-anchor="middle">
+                80
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="280.0" y1="24" x2="280.0" y2="320" />
+              <text class="axis-label" x="280.0" y="344" text-anchor="middle">
+                8K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="488.0" y1="24" x2="488.0" y2="320" />
+              <text class="axis-label" x="488.0" y="344" text-anchor="middle">
+                800K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="696.0" y1="24" x2="696.0" y2="320" />
+              <text class="axis-label" x="696.0" y="344" text-anchor="middle">
+                8M
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="320.0" x2="696" y2="320.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="320.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                0
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="270.7" x2="696" y2="270.7" />
+              <text
+                class="axis-label"
+                x="62"
+                y="270.7"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                500
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="221.3" x2="696" y2="221.3" />
+              <text
+                class="axis-label"
+                x="62"
+                y="221.3"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                1K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="172.0" x2="696" y2="172.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="172.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                1.5K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="122.7" x2="696" y2="122.7" />
+              <text
+                class="axis-label"
+                x="62"
+                y="122.7"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                2K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="73.3" x2="696" y2="73.3" />
+              <text
+                class="axis-label"
+                x="62"
+                y="73.3"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                2.5K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="24.0" x2="696" y2="24.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="24.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                3K
+              </text>
+            </g>
+            <line class="axis-line" x1="72" y1="320" x2="696" y2="320" />
+            <line class="axis-line" x1="72" y1="24" x2="72" y2="320" />
+            <text class="axis-title" x="384" y="368" text-anchor="middle">
+              Cells (rows x columns)
+            </text>
+            <text
+              class="axis-title"
+              transform="translate(20 172) rotate(-90)"
+              text-anchor="middle"
+            >
+              Memory MB
+            </text>
+            <polyline
+              class="chart-line"
+              points="72.0,319.8 280.0,319.5 488.0,293.0 696.0,52.2"
+              fill="none"
+              stroke="#dc2626"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.8" r="4.5" fill="#dc2626">
+              <title>v8: 80 cells, 2.13 MB</title>
+            </circle>
+            <circle cx="280.0" cy="319.5" r="4.5" fill="#dc2626">
+              <title>v8: 8,000 cells, 5.16 MB</title>
+            </circle>
+            <circle cx="488.0" cy="293.0" r="4.5" fill="#dc2626">
+              <title>v8: 800,000 cells, 273.42 MB</title>
+            </circle>
+            <circle cx="696.0" cy="52.2" r="4.5" fill="#dc2626">
+              <title>v8: 8,000,000 cells, 2714.32 MB</title>
+            </circle>
+            <polyline
+              class="chart-line"
+              points="72.0,319.8 280.0,319.7 488.0,317.2 696.0,294.2"
+              fill="none"
+              stroke="#2563eb"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.8" r="4.5" fill="#2563eb">
+              <title>v9: 80 cells, 2.10 MB</title>
+            </circle>
+            <circle cx="280.0" cy="319.7" r="4.5" fill="#2563eb">
+              <title>v9: 8,000 cells, 2.68 MB</title>
+            </circle>
+            <circle cx="488.0" cy="317.2" r="4.5" fill="#2563eb">
+              <title>v9: 800,000 cells, 28.12 MB</title>
+            </circle>
+            <circle cx="696.0" cy="294.2" r="4.5" fill="#2563eb">
+              <title>v9: 8,000,000 cells, 261.46 MB</title>
+            </circle>
+          </svg>
+        </section>
+      </div>
+    </section>
+
+    <section class="chart-section">
+      <h2>Final Interaction Retained Heap: v8 vs v9</h2>
+      <p class="chart-note">
+        Phase: final interaction. Each chart uses a linear memory axis and
+        categorical cell-count positions so the v8/v9 gap is visible. Red is v8;
+        blue is v9.
+      </p>
+      <div class="version-legend">
+        <span><i style="background: #dc2626"></i>v8</span>
+        <span><i style="background: #2563eb"></i>v9</span>
+      </div>
+      <div class="chart-grid">
+        <section class="chart-card">
+          <h3>virtualized columns</h3>
+          <svg
+            class="memory-chart"
+            viewBox="0 0 720 390"
+            role="img"
+            aria-label="virtualized columns final interaction memory usage"
+          >
+            <rect x="0" y="0" width="720" height="390" fill="#ffffff" />
+            <g>
+              <line class="grid-line" x1="72.0" y1="24" x2="72.0" y2="320" />
+              <text class="axis-label" x="72.0" y="344" text-anchor="middle">
+                100
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="280.0" y1="24" x2="280.0" y2="320" />
+              <text class="axis-label" x="280.0" y="344" text-anchor="middle">
+                10K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="488.0" y1="24" x2="488.0" y2="320" />
+              <text class="axis-label" x="488.0" y="344" text-anchor="middle">
+                100K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="696.0" y1="24" x2="696.0" y2="320" />
+              <text class="axis-label" x="696.0" y="344" text-anchor="middle">
+                1M
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="320.0" x2="696" y2="320.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="320.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                0
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="172.0" x2="696" y2="172.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="172.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                500
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="24.0" x2="696" y2="24.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="24.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                1K
+              </text>
+            </g>
+            <line class="axis-line" x1="72" y1="320" x2="696" y2="320" />
+            <line class="axis-line" x1="72" y1="24" x2="72" y2="320" />
+            <text class="axis-title" x="384" y="368" text-anchor="middle">
+              Cells (rows x columns)
+            </text>
+            <text
+              class="axis-title"
+              transform="translate(20 172) rotate(-90)"
+              text-anchor="middle"
+            >
+              Memory MB
+            </text>
+            <polyline
+              class="chart-line"
+              points="72.0,319.0 280.0,316.8 488.0,300.9 696.0,147.7"
+              fill="none"
+              stroke="#dc2626"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.0" r="4.5" fill="#dc2626">
+              <title>v8: 100 cells, 3.34 MB</title>
+            </circle>
+            <circle cx="280.0" cy="316.8" r="4.5" fill="#dc2626">
+              <title>v8: 10,000 cells, 10.71 MB</title>
+            </circle>
+            <circle cx="488.0" cy="300.9" r="4.5" fill="#dc2626">
+              <title>v8: 100,000 cells, 64.48 MB</title>
+            </circle>
+            <circle cx="696.0" cy="147.7" r="4.5" fill="#dc2626">
+              <title>v8: 1,000,000 cells, 582.13 MB</title>
+            </circle>
+            <polyline
+              class="chart-line"
+              points="72.0,319.0 280.0,317.5 488.0,310.2 696.0,273.1"
+              fill="none"
+              stroke="#2563eb"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.0" r="4.5" fill="#2563eb">
+              <title>v9: 100 cells, 3.35 MB</title>
+            </circle>
+            <circle cx="280.0" cy="317.5" r="4.5" fill="#2563eb">
+              <title>v9: 10,000 cells, 8.39 MB</title>
+            </circle>
+            <circle cx="488.0" cy="310.2" r="4.5" fill="#2563eb">
+              <title>v9: 100,000 cells, 32.97 MB</title>
+            </circle>
+            <circle cx="696.0" cy="273.1" r="4.5" fill="#2563eb">
+              <title>v9: 1,000,000 cells, 158.46 MB</title>
+            </circle>
+          </svg>
+        </section>
+        <section class="chart-card">
+          <h3>kitchen sink</h3>
+          <svg
+            class="memory-chart"
+            viewBox="0 0 720 390"
+            role="img"
+            aria-label="kitchen sink final interaction memory usage"
+          >
+            <rect x="0" y="0" width="720" height="390" fill="#ffffff" />
+            <g>
+              <line class="grid-line" x1="72.0" y1="24" x2="72.0" y2="320" />
+              <text class="axis-label" x="72.0" y="344" text-anchor="middle">
+                80
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="280.0" y1="24" x2="280.0" y2="320" />
+              <text class="axis-label" x="280.0" y="344" text-anchor="middle">
+                8K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="488.0" y1="24" x2="488.0" y2="320" />
+              <text class="axis-label" x="488.0" y="344" text-anchor="middle">
+                800K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="696.0" y1="24" x2="696.0" y2="320" />
+              <text class="axis-label" x="696.0" y="344" text-anchor="middle">
+                8M
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="320.0" x2="696" y2="320.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="320.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                0
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="270.7" x2="696" y2="270.7" />
+              <text
+                class="axis-label"
+                x="62"
+                y="270.7"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                500
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="221.3" x2="696" y2="221.3" />
+              <text
+                class="axis-label"
+                x="62"
+                y="221.3"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                1K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="172.0" x2="696" y2="172.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="172.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                1.5K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="122.7" x2="696" y2="122.7" />
+              <text
+                class="axis-label"
+                x="62"
+                y="122.7"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                2K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="73.3" x2="696" y2="73.3" />
+              <text
+                class="axis-label"
+                x="62"
+                y="73.3"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                2.5K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="24.0" x2="696" y2="24.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="24.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                3K
+              </text>
+            </g>
+            <line class="axis-line" x1="72" y1="320" x2="696" y2="320" />
+            <line class="axis-line" x1="72" y1="24" x2="72" y2="320" />
+            <text class="axis-title" x="384" y="368" text-anchor="middle">
+              Cells (rows x columns)
+            </text>
+            <text
+              class="axis-title"
+              transform="translate(20 172) rotate(-90)"
+              text-anchor="middle"
+            >
+              Memory MB
+            </text>
+            <polyline
+              class="chart-line"
+              points="72.0,319.7 280.0,319.4 488.0,293.0 696.0,52.5"
+              fill="none"
+              stroke="#dc2626"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.7" r="4.5" fill="#dc2626">
+              <title>v8: 80 cells, 2.82 MB</title>
+            </circle>
+            <circle cx="280.0" cy="319.4" r="4.5" fill="#dc2626">
+              <title>v8: 8,000 cells, 5.89 MB</title>
+            </circle>
+            <circle cx="488.0" cy="293.0" r="4.5" fill="#dc2626">
+              <title>v8: 800,000 cells, 273.76 MB</title>
+            </circle>
+            <circle cx="696.0" cy="52.5" r="4.5" fill="#dc2626">
+              <title>v8: 8,000,000 cells, 2711.24 MB</title>
+            </circle>
+            <polyline
+              class="chart-line"
+              points="72.0,319.7 280.0,319.6 488.0,316.3 696.0,285.5"
+              fill="none"
+              stroke="#2563eb"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.7" r="4.5" fill="#2563eb">
+              <title>v9: 80 cells, 3.02 MB</title>
+            </circle>
+            <circle cx="280.0" cy="319.6" r="4.5" fill="#2563eb">
+              <title>v9: 8,000 cells, 3.72 MB</title>
+            </circle>
+            <circle cx="488.0" cy="316.3" r="4.5" fill="#2563eb">
+              <title>v9: 800,000 cells, 37.84 MB</title>
+            </circle>
+            <circle cx="696.0" cy="285.5" r="4.5" fill="#2563eb">
+              <title>v9: 8,000,000 cells, 350.15 MB</title>
+            </circle>
+          </svg>
+        </section>
+        <section class="chart-card">
+          <h3>paginated rows</h3>
+          <svg
+            class="memory-chart"
+            viewBox="0 0 720 390"
+            role="img"
+            aria-label="paginated rows final interaction memory usage"
+          >
+            <rect x="0" y="0" width="720" height="390" fill="#ffffff" />
+            <g>
+              <line class="grid-line" x1="72.0" y1="24" x2="72.0" y2="320" />
+              <text class="axis-label" x="72.0" y="344" text-anchor="middle">
+                80
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="280.0" y1="24" x2="280.0" y2="320" />
+              <text class="axis-label" x="280.0" y="344" text-anchor="middle">
+                8K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="488.0" y1="24" x2="488.0" y2="320" />
+              <text class="axis-label" x="488.0" y="344" text-anchor="middle">
+                800K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="696.0" y1="24" x2="696.0" y2="320" />
+              <text class="axis-label" x="696.0" y="344" text-anchor="middle">
+                8M
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="320.0" x2="696" y2="320.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="320.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                0
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="270.7" x2="696" y2="270.7" />
+              <text
+                class="axis-label"
+                x="62"
+                y="270.7"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                500
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="221.3" x2="696" y2="221.3" />
+              <text
+                class="axis-label"
+                x="62"
+                y="221.3"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                1K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="172.0" x2="696" y2="172.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="172.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                1.5K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="122.7" x2="696" y2="122.7" />
+              <text
+                class="axis-label"
+                x="62"
+                y="122.7"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                2K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="73.3" x2="696" y2="73.3" />
+              <text
+                class="axis-label"
+                x="62"
+                y="73.3"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                2.5K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="24.0" x2="696" y2="24.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="24.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                3K
+              </text>
+            </g>
+            <line class="axis-line" x1="72" y1="320" x2="696" y2="320" />
+            <line class="axis-line" x1="72" y1="24" x2="72" y2="320" />
+            <text class="axis-title" x="384" y="368" text-anchor="middle">
+              Cells (rows x columns)
+            </text>
+            <text
+              class="axis-title"
+              transform="translate(20 172) rotate(-90)"
+              text-anchor="middle"
+            >
+              Memory MB
+            </text>
+            <polyline
+              class="chart-line"
+              points="72.0,319.7 280.0,319.4 488.0,293.0 696.0,52.5"
+              fill="none"
+              stroke="#dc2626"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.7" r="4.5" fill="#dc2626">
+              <title>v8: 80 cells, 2.56 MB</title>
+            </circle>
+            <circle cx="280.0" cy="319.4" r="4.5" fill="#dc2626">
+              <title>v8: 8,000 cells, 5.77 MB</title>
+            </circle>
+            <circle cx="488.0" cy="293.0" r="4.5" fill="#dc2626">
+              <title>v8: 800,000 cells, 273.65 MB</title>
+            </circle>
+            <circle cx="696.0" cy="52.5" r="4.5" fill="#dc2626">
+              <title>v8: 8,000,000 cells, 2711.12 MB</title>
+            </circle>
+            <polyline
+              class="chart-line"
+              points="72.0,319.7 280.0,319.7 488.0,317.2 696.0,294.5"
+              fill="none"
+              stroke="#2563eb"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.7" r="4.5" fill="#2563eb">
+              <title>v9: 80 cells, 2.54 MB</title>
+            </circle>
+            <circle cx="280.0" cy="319.7" r="4.5" fill="#2563eb">
+              <title>v9: 8,000 cells, 3.31 MB</title>
+            </circle>
+            <circle cx="488.0" cy="317.2" r="4.5" fill="#2563eb">
+              <title>v9: 800,000 cells, 28.37 MB</title>
+            </circle>
+            <circle cx="696.0" cy="294.5" r="4.5" fill="#2563eb">
+              <title>v9: 8,000,000 cells, 258.28 MB</title>
+            </circle>
+          </svg>
+        </section>
+        <section class="chart-card">
+          <h3>virtualized rows</h3>
+          <svg
+            class="memory-chart"
+            viewBox="0 0 720 390"
+            role="img"
+            aria-label="virtualized rows final interaction memory usage"
+          >
+            <rect x="0" y="0" width="720" height="390" fill="#ffffff" />
+            <g>
+              <line class="grid-line" x1="72.0" y1="24" x2="72.0" y2="320" />
+              <text class="axis-label" x="72.0" y="344" text-anchor="middle">
+                80
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="280.0" y1="24" x2="280.0" y2="320" />
+              <text class="axis-label" x="280.0" y="344" text-anchor="middle">
+                8K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="488.0" y1="24" x2="488.0" y2="320" />
+              <text class="axis-label" x="488.0" y="344" text-anchor="middle">
+                800K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="696.0" y1="24" x2="696.0" y2="320" />
+              <text class="axis-label" x="696.0" y="344" text-anchor="middle">
+                8M
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="320.0" x2="696" y2="320.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="320.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                0
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="270.7" x2="696" y2="270.7" />
+              <text
+                class="axis-label"
+                x="62"
+                y="270.7"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                500
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="221.3" x2="696" y2="221.3" />
+              <text
+                class="axis-label"
+                x="62"
+                y="221.3"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                1K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="172.0" x2="696" y2="172.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="172.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                1.5K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="122.7" x2="696" y2="122.7" />
+              <text
+                class="axis-label"
+                x="62"
+                y="122.7"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                2K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="73.3" x2="696" y2="73.3" />
+              <text
+                class="axis-label"
+                x="62"
+                y="73.3"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                2.5K
+              </text>
+            </g>
+            <g>
+              <line class="grid-line" x1="72" y1="24.0" x2="696" y2="24.0" />
+              <text
+                class="axis-label"
+                x="62"
+                y="24.0"
+                dominant-baseline="middle"
+                text-anchor="end"
+              >
+                3K
+              </text>
+            </g>
+            <line class="axis-line" x1="72" y1="320" x2="696" y2="320" />
+            <line class="axis-line" x1="72" y1="24" x2="72" y2="320" />
+            <text class="axis-title" x="384" y="368" text-anchor="middle">
+              Cells (rows x columns)
+            </text>
+            <text
+              class="axis-title"
+              transform="translate(20 172) rotate(-90)"
+              text-anchor="middle"
+            >
+              Memory MB
+            </text>
+            <polyline
+              class="chart-line"
+              points="72.0,319.7 280.0,318.9 488.0,291.5 696.0,52.1"
+              fill="none"
+              stroke="#dc2626"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.7" r="4.5" fill="#dc2626">
+              <title>v8: 80 cells, 3.17 MB</title>
+            </circle>
+            <circle cx="280.0" cy="318.9" r="4.5" fill="#dc2626">
+              <title>v8: 8,000 cells, 11.16 MB</title>
+            </circle>
+            <circle cx="488.0" cy="291.5" r="4.5" fill="#dc2626">
+              <title>v8: 800,000 cells, 288.84 MB</title>
+            </circle>
+            <circle cx="696.0" cy="52.1" r="4.5" fill="#dc2626">
+              <title>v8: 8,000,000 cells, 2715.63 MB</title>
+            </circle>
+            <polyline
+              class="chart-line"
+              points="72.0,319.7 280.0,319.2 488.0,315.9 696.0,294.1"
+              fill="none"
+              stroke="#2563eb"
+              stroke-width="3"
+            />
+            <circle cx="72.0" cy="319.7" r="4.5" fill="#2563eb">
+              <title>v9: 80 cells, 3.16 MB</title>
+            </circle>
+            <circle cx="280.0" cy="319.2" r="4.5" fill="#2563eb">
+              <title>v9: 8,000 cells, 7.88 MB</title>
+            </circle>
+            <circle cx="488.0" cy="315.9" r="4.5" fill="#2563eb">
+              <title>v9: 800,000 cells, 41.09 MB</title>
+            </circle>
+            <circle cx="696.0" cy="294.1" r="4.5" fill="#2563eb">
+              <title>v9: 8,000,000 cells, 262.71 MB</title>
+            </circle>
+          </svg>
+        </section>
+      </div>
+    </section>
+
+    <h2>v9 vs v8 Median Retained JS Heap</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Config</th>
+          <th>Benchmark</th>
+          <th>Phase</th>
+          <th>Rows</th>
+          <th>Columns</th>
+          <th>v8 Median</th>
+          <th>v9 Median</th>
+          <th>Memory Less</th>
+          <th>Memory Less %</th>
+          <th>Rows Match</th>
+          <th>Cells Match</th>
+          <th>Samples</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>rows-10x8</td>
+          <td>virtualized rows</td>
+          <td>initial</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.13 MB</td>
+          <td>2.10 MB</td>
+          <td>0.03 MB</td>
+          <td>1.4%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-10x8</td>
+          <td>virtualized rows</td>
+          <td>instant-middle-scroll</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.88 MB</td>
+          <td>2.87 MB</td>
+          <td>0.01 MB</td>
+          <td>0.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-10x8</td>
+          <td>virtualized rows</td>
+          <td>instant-end-scroll</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.93 MB</td>
+          <td>2.92 MB</td>
+          <td>0.01 MB</td>
+          <td>0.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-10x8</td>
+          <td>virtualized rows</td>
+          <td>smooth-middle-scroll</td>
+          <td>10</td>
+          <td>8</td>
+          <td>3.16 MB</td>
+          <td>3.15 MB</td>
+          <td>0.01 MB</td>
+          <td>0.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-10x8</td>
+          <td>virtualized rows</td>
+          <td>smooth-end-scroll</td>
+          <td>10</td>
+          <td>8</td>
+          <td>3.17 MB</td>
+          <td>3.16 MB</td>
+          <td>0.01 MB</td>
+          <td>0.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8</td>
+          <td>virtualized rows</td>
+          <td>initial</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>5.16 MB</td>
+          <td>2.68 MB</td>
+          <td>2.48 MB</td>
+          <td>48.1%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8</td>
+          <td>virtualized rows</td>
+          <td>instant-middle-scroll</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>6.32 MB</td>
+          <td>3.82 MB</td>
+          <td>2.50 MB</td>
+          <td>39.6%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8</td>
+          <td>virtualized rows</td>
+          <td>instant-end-scroll</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>6.46 MB</td>
+          <td>3.93 MB</td>
+          <td>2.53 MB</td>
+          <td>39.2%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8</td>
+          <td>virtualized rows</td>
+          <td>smooth-middle-scroll</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>9.00 MB</td>
+          <td>6.12 MB</td>
+          <td>2.88 MB</td>
+          <td>32.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8</td>
+          <td>virtualized rows</td>
+          <td>smooth-end-scroll</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>11.16 MB</td>
+          <td>7.88 MB</td>
+          <td>3.28 MB</td>
+          <td>29.4%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8</td>
+          <td>virtualized rows</td>
+          <td>initial</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>273.42 MB</td>
+          <td>28.12 MB</td>
+          <td>245.30 MB</td>
+          <td>89.7%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8</td>
+          <td>virtualized rows</td>
+          <td>instant-middle-scroll</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>274.58 MB</td>
+          <td>29.26 MB</td>
+          <td>245.32 MB</td>
+          <td>89.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8</td>
+          <td>virtualized rows</td>
+          <td>instant-end-scroll</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>274.71 MB</td>
+          <td>29.37 MB</td>
+          <td>245.34 MB</td>
+          <td>89.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8</td>
+          <td>virtualized rows</td>
+          <td>smooth-middle-scroll</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>281.99 MB</td>
+          <td>35.46 MB</td>
+          <td>246.53 MB</td>
+          <td>87.4%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8</td>
+          <td>virtualized rows</td>
+          <td>smooth-end-scroll</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>288.84 MB</td>
+          <td>41.09 MB</td>
+          <td>247.75 MB</td>
+          <td>85.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000000x8</td>
+          <td>virtualized rows</td>
+          <td>initial</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2714.32 MB</td>
+          <td>261.46 MB</td>
+          <td>2452.86 MB</td>
+          <td>90.4%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000000x8</td>
+          <td>virtualized rows</td>
+          <td>instant-middle-scroll</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2715.49 MB</td>
+          <td>262.60 MB</td>
+          <td>2452.89 MB</td>
+          <td>90.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000000x8</td>
+          <td>virtualized rows</td>
+          <td>instant-end-scroll</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2715.62 MB</td>
+          <td>262.71 MB</td>
+          <td>2452.91 MB</td>
+          <td>90.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000000x8</td>
+          <td>virtualized rows</td>
+          <td>smooth-scroll-skipped</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2715.63 MB</td>
+          <td>262.71 MB</td>
+          <td>2452.92 MB</td>
+          <td>90.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10</td>
+          <td>virtualized columns</td>
+          <td>initial</td>
+          <td>10</td>
+          <td>10</td>
+          <td>2.24 MB</td>
+          <td>2.24 MB</td>
+          <td>0.00 MB</td>
+          <td>0.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10</td>
+          <td>virtualized columns</td>
+          <td>instant-middle-scroll</td>
+          <td>10</td>
+          <td>10</td>
+          <td>3.09 MB</td>
+          <td>3.10 MB</td>
+          <td>-0.01 MB</td>
+          <td>-0.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10</td>
+          <td>virtualized columns</td>
+          <td>instant-end-scroll</td>
+          <td>10</td>
+          <td>10</td>
+          <td>3.19 MB</td>
+          <td>3.20 MB</td>
+          <td>-0.01 MB</td>
+          <td>-0.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10</td>
+          <td>virtualized columns</td>
+          <td>smooth-middle-scroll</td>
+          <td>10</td>
+          <td>10</td>
+          <td>3.33 MB</td>
+          <td>3.34 MB</td>
+          <td>-0.01 MB</td>
+          <td>-0.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10</td>
+          <td>virtualized columns</td>
+          <td>smooth-end-scroll</td>
+          <td>10</td>
+          <td>10</td>
+          <td>3.34 MB</td>
+          <td>3.35 MB</td>
+          <td>-0.01 MB</td>
+          <td>-0.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100</td>
+          <td>virtualized columns</td>
+          <td>initial</td>
+          <td>100</td>
+          <td>100</td>
+          <td>5.31 MB</td>
+          <td>3.83 MB</td>
+          <td>1.48 MB</td>
+          <td>27.9%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100</td>
+          <td>virtualized columns</td>
+          <td>instant-middle-scroll</td>
+          <td>100</td>
+          <td>100</td>
+          <td>8.78 MB</td>
+          <td>6.35 MB</td>
+          <td>2.43 MB</td>
+          <td>27.7%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100</td>
+          <td>virtualized columns</td>
+          <td>instant-end-scroll</td>
+          <td>100</td>
+          <td>100</td>
+          <td>10.05 MB</td>
+          <td>6.64 MB</td>
+          <td>3.41 MB</td>
+          <td>33.9%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100</td>
+          <td>virtualized columns</td>
+          <td>smooth-middle-scroll</td>
+          <td>100</td>
+          <td>100</td>
+          <td>10.91 MB</td>
+          <td>8.21 MB</td>
+          <td>2.70 MB</td>
+          <td>24.7%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100</td>
+          <td>virtualized columns</td>
+          <td>smooth-end-scroll</td>
+          <td>100</td>
+          <td>100</td>
+          <td>10.71 MB</td>
+          <td>8.39 MB</td>
+          <td>2.32 MB</td>
+          <td>21.7%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000</td>
+          <td>virtualized columns</td>
+          <td>initial</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>25.82 MB</td>
+          <td>10.73 MB</td>
+          <td>15.09 MB</td>
+          <td>58.4%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000</td>
+          <td>virtualized columns</td>
+          <td>instant-middle-scroll</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>45.66 MB</td>
+          <td>15.18 MB</td>
+          <td>30.48 MB</td>
+          <td>66.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000</td>
+          <td>virtualized columns</td>
+          <td>instant-end-scroll</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>60.19 MB</td>
+          <td>17.05 MB</td>
+          <td>43.14 MB</td>
+          <td>71.7%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000</td>
+          <td>virtualized columns</td>
+          <td>smooth-middle-scroll</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>62.88 MB</td>
+          <td>25.77 MB</td>
+          <td>37.11 MB</td>
+          <td>59.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000</td>
+          <td>virtualized columns</td>
+          <td>smooth-end-scroll</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>64.48 MB</td>
+          <td>32.97 MB</td>
+          <td>31.51 MB</td>
+          <td>48.9%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x10000</td>
+          <td>virtualized columns</td>
+          <td>initial</td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>230.47 MB</td>
+          <td>80.24 MB</td>
+          <td>150.23 MB</td>
+          <td>65.2%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x10000</td>
+          <td>virtualized columns</td>
+          <td>instant-middle-scroll</td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>416.60 MB</td>
+          <td>107.51 MB</td>
+          <td>309.09 MB</td>
+          <td>74.2%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x10000</td>
+          <td>virtualized columns</td>
+          <td>instant-end-scroll</td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>565.98 MB</td>
+          <td>127.89 MB</td>
+          <td>438.09 MB</td>
+          <td>77.4%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x10000</td>
+          <td>virtualized columns</td>
+          <td>smooth-middle-scroll</td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>574.60 MB</td>
+          <td>143.89 MB</td>
+          <td>430.71 MB</td>
+          <td>75.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x10000</td>
+          <td>virtualized columns</td>
+          <td>smooth-end-scroll</td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>582.13 MB</td>
+          <td>158.46 MB</td>
+          <td>423.67 MB</td>
+          <td>72.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-10x8</td>
+          <td>paginated rows</td>
+          <td>initial</td>
+          <td>10</td>
+          <td>8</td>
+          <td>1.93 MB</td>
+          <td>1.91 MB</td>
+          <td>0.02 MB</td>
+          <td>1.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-10x8</td>
+          <td>paginated rows</td>
+          <td>next-page</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.55 MB</td>
+          <td>2.53 MB</td>
+          <td>0.02 MB</td>
+          <td>0.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-10x8</td>
+          <td>paginated rows</td>
+          <td>last-page</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.56 MB</td>
+          <td>2.54 MB</td>
+          <td>0.02 MB</td>
+          <td>0.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000x8</td>
+          <td>paginated rows</td>
+          <td>initial</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>4.71 MB</td>
+          <td>2.22 MB</td>
+          <td>2.49 MB</td>
+          <td>52.9%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000x8</td>
+          <td>paginated rows</td>
+          <td>next-page</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>5.64 MB</td>
+          <td>3.20 MB</td>
+          <td>2.44 MB</td>
+          <td>43.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000x8</td>
+          <td>paginated rows</td>
+          <td>last-page</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>5.77 MB</td>
+          <td>3.31 MB</td>
+          <td>2.46 MB</td>
+          <td>42.6%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-100000x8</td>
+          <td>paginated rows</td>
+          <td>initial</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>272.58 MB</td>
+          <td>27.28 MB</td>
+          <td>245.30 MB</td>
+          <td>90.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-100000x8</td>
+          <td>paginated rows</td>
+          <td>next-page</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>273.51 MB</td>
+          <td>28.26 MB</td>
+          <td>245.25 MB</td>
+          <td>89.7%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-100000x8</td>
+          <td>paginated rows</td>
+          <td>last-page</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>273.65 MB</td>
+          <td>28.37 MB</td>
+          <td>245.28 MB</td>
+          <td>89.6%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000000x8</td>
+          <td>paginated rows</td>
+          <td>initial</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2710.06 MB</td>
+          <td>257.19 MB</td>
+          <td>2452.87 MB</td>
+          <td>90.5%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000000x8</td>
+          <td>paginated rows</td>
+          <td>next-page</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2710.98 MB</td>
+          <td>258.17 MB</td>
+          <td>2452.81 MB</td>
+          <td>90.5%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000000x8</td>
+          <td>paginated rows</td>
+          <td>last-page</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2711.12 MB</td>
+          <td>258.28 MB</td>
+          <td>2452.84 MB</td>
+          <td>90.5%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-10x8</td>
+          <td>kitchen sink</td>
+          <td>initial</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.18 MB</td>
+          <td>2.38 MB</td>
+          <td>-0.20 MB</td>
+          <td>-9.2%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-10x8</td>
+          <td>kitchen sink</td>
+          <td>next-page</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.81 MB</td>
+          <td>3.01 MB</td>
+          <td>-0.20 MB</td>
+          <td>-7.1%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-10x8</td>
+          <td>kitchen sink</td>
+          <td>last-page</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.82 MB</td>
+          <td>3.02 MB</td>
+          <td>-0.20 MB</td>
+          <td>-7.1%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000x8</td>
+          <td>kitchen sink</td>
+          <td>initial</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>4.96 MB</td>
+          <td>2.79 MB</td>
+          <td>2.17 MB</td>
+          <td>43.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000x8</td>
+          <td>kitchen sink</td>
+          <td>next-page</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>5.79 MB</td>
+          <td>3.61 MB</td>
+          <td>2.18 MB</td>
+          <td>37.7%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000x8</td>
+          <td>kitchen sink</td>
+          <td>last-page</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>5.89 MB</td>
+          <td>3.72 MB</td>
+          <td>2.17 MB</td>
+          <td>36.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-100000x8</td>
+          <td>kitchen sink</td>
+          <td>initial</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>272.83 MB</td>
+          <td>36.91 MB</td>
+          <td>235.92 MB</td>
+          <td>86.5%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-100000x8</td>
+          <td>kitchen sink</td>
+          <td>next-page</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>273.66 MB</td>
+          <td>37.73 MB</td>
+          <td>235.93 MB</td>
+          <td>86.2%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-100000x8</td>
+          <td>kitchen sink</td>
+          <td>last-page</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>273.76 MB</td>
+          <td>37.84 MB</td>
+          <td>235.92 MB</td>
+          <td>86.2%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000000x8</td>
+          <td>kitchen sink</td>
+          <td>initial</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2710.31 MB</td>
+          <td>349.22 MB</td>
+          <td>2361.09 MB</td>
+          <td>87.1%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000000x8</td>
+          <td>kitchen sink</td>
+          <td>next-page</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2711.14 MB</td>
+          <td>350.04 MB</td>
+          <td>2361.10 MB</td>
+          <td>87.1%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000000x8</td>
+          <td>kitchen sink</td>
+          <td>last-page</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2711.24 MB</td>
+          <td>350.15 MB</td>
+          <td>2361.09 MB</td>
+          <td>87.1%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>5</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Raw Summary</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Case</th>
+          <th>Rows</th>
+          <th>Columns</th>
+          <th>Before GC Median</th>
+          <th>After GC Median</th>
+          <th>GC Reclaimed Median</th>
+          <th>After GC Min</th>
+          <th>After GC Max</th>
+          <th>Rendered Rows</th>
+          <th>Rendered Cells</th>
+          <th>DOM Nodes</th>
+          <th>Listeners</th>
+          <th>Samples</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>rows-10x8:v8/virtualized-rows:initial</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.96 MB</td>
+          <td>2.13 MB</td>
+          <td>0.83 MB</td>
+          <td>2.13 MB</td>
+          <td>2.13 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>230</td>
+          <td>166</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-10x8:v8/virtualized-rows:instant-middle-scroll</td>
+          <td>10</td>
+          <td>8</td>
+          <td>3.15 MB</td>
+          <td>2.88 MB</td>
+          <td>0.28 MB</td>
+          <td>2.88 MB</td>
+          <td>2.88 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>232</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-10x8:v8/virtualized-rows:instant-end-scroll</td>
+          <td>10</td>
+          <td>8</td>
+          <td>3.10 MB</td>
+          <td>2.93 MB</td>
+          <td>0.17 MB</td>
+          <td>2.93 MB</td>
+          <td>2.93 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>232</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-10x8:v8/virtualized-rows:smooth-middle-scroll</td>
+          <td>10</td>
+          <td>8</td>
+          <td>3.91 MB</td>
+          <td>3.16 MB</td>
+          <td>0.75 MB</td>
+          <td>3.16 MB</td>
+          <td>3.16 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>232</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-10x8:v8/virtualized-rows:smooth-end-scroll</td>
+          <td>10</td>
+          <td>8</td>
+          <td>3.76 MB</td>
+          <td>3.17 MB</td>
+          <td>0.59 MB</td>
+          <td>3.17 MB</td>
+          <td>3.17 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>232</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8:v8/virtualized-rows:initial</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>5.84 MB</td>
+          <td>5.16 MB</td>
+          <td>0.68 MB</td>
+          <td>5.16 MB</td>
+          <td>5.16 MB</td>
+          <td>31</td>
+          <td>248</td>
+          <td>587</td>
+          <td>166</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8:v8/virtualized-rows:instant-middle-scroll</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>6.67 MB</td>
+          <td>6.32 MB</td>
+          <td>0.35 MB</td>
+          <td>6.32 MB</td>
+          <td>6.32 MB</td>
+          <td>37</td>
+          <td>296</td>
+          <td>691</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8:v8/virtualized-rows:instant-end-scroll</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>7.15 MB</td>
+          <td>6.46 MB</td>
+          <td>0.69 MB</td>
+          <td>6.46 MB</td>
+          <td>6.46 MB</td>
+          <td>30</td>
+          <td>240</td>
+          <td>572</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8:v8/virtualized-rows:smooth-middle-scroll</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>9.20 MB</td>
+          <td>9.00 MB</td>
+          <td>0.20 MB</td>
+          <td>8.99 MB</td>
+          <td>9.00 MB</td>
+          <td>37</td>
+          <td>296</td>
+          <td>691</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8:v8/virtualized-rows:smooth-end-scroll</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>12.56 MB</td>
+          <td>11.16 MB</td>
+          <td>1.40 MB</td>
+          <td>11.15 MB</td>
+          <td>11.16 MB</td>
+          <td>30</td>
+          <td>240</td>
+          <td>572</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8:v8/virtualized-rows:initial</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>278.26 MB</td>
+          <td>273.42 MB</td>
+          <td>4.85 MB</td>
+          <td>273.41 MB</td>
+          <td>273.42 MB</td>
+          <td>31</td>
+          <td>248</td>
+          <td>587</td>
+          <td>166</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8:v8/virtualized-rows:instant-middle-scroll</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>274.93 MB</td>
+          <td>274.58 MB</td>
+          <td>0.35 MB</td>
+          <td>274.58 MB</td>
+          <td>274.58 MB</td>
+          <td>37</td>
+          <td>296</td>
+          <td>691</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8:v8/virtualized-rows:instant-end-scroll</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>275.41 MB</td>
+          <td>274.71 MB</td>
+          <td>0.69 MB</td>
+          <td>274.71 MB</td>
+          <td>274.72 MB</td>
+          <td>30</td>
+          <td>240</td>
+          <td>572</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8:v8/virtualized-rows:smooth-middle-scroll</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>287.70 MB</td>
+          <td>281.99 MB</td>
+          <td>5.71 MB</td>
+          <td>281.99 MB</td>
+          <td>281.99 MB</td>
+          <td>37</td>
+          <td>296</td>
+          <td>691</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8:v8/virtualized-rows:smooth-end-scroll</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>294.46 MB</td>
+          <td>288.84 MB</td>
+          <td>5.63 MB</td>
+          <td>288.84 MB</td>
+          <td>288.84 MB</td>
+          <td>30</td>
+          <td>240</td>
+          <td>572</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000000x8:v8/virtualized-rows:initial</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2730.42 MB</td>
+          <td>2714.32 MB</td>
+          <td>16.09 MB</td>
+          <td>2714.32 MB</td>
+          <td>2714.33 MB</td>
+          <td>31</td>
+          <td>248</td>
+          <td>587</td>
+          <td>166</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000000x8:v8/virtualized-rows:instant-middle-scroll</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2715.84 MB</td>
+          <td>2715.49 MB</td>
+          <td>0.36 MB</td>
+          <td>2715.49 MB</td>
+          <td>2715.49 MB</td>
+          <td>37</td>
+          <td>296</td>
+          <td>691</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000000x8:v8/virtualized-rows:instant-end-scroll</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2716.32 MB</td>
+          <td>2715.62 MB</td>
+          <td>0.69 MB</td>
+          <td>2715.62 MB</td>
+          <td>2715.63 MB</td>
+          <td>30</td>
+          <td>240</td>
+          <td>572</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000000x8:v8/virtualized-rows:smooth-scroll-skipped</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2715.64 MB</td>
+          <td>2715.63 MB</td>
+          <td>0.02 MB</td>
+          <td>2715.63 MB</td>
+          <td>2715.63 MB</td>
+          <td>30</td>
+          <td>240</td>
+          <td>572</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-10x8:v9/virtualized-rows:initial</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.93 MB</td>
+          <td>2.10 MB</td>
+          <td>0.83 MB</td>
+          <td>2.09 MB</td>
+          <td>2.10 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>230</td>
+          <td>166</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-10x8:v9/virtualized-rows:instant-middle-scroll</td>
+          <td>10</td>
+          <td>8</td>
+          <td>3.14 MB</td>
+          <td>2.87 MB</td>
+          <td>0.27 MB</td>
+          <td>2.87 MB</td>
+          <td>2.87 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>232</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-10x8:v9/virtualized-rows:instant-end-scroll</td>
+          <td>10</td>
+          <td>8</td>
+          <td>3.09 MB</td>
+          <td>2.92 MB</td>
+          <td>0.16 MB</td>
+          <td>2.92 MB</td>
+          <td>2.92 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>232</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-10x8:v9/virtualized-rows:smooth-middle-scroll</td>
+          <td>10</td>
+          <td>8</td>
+          <td>3.91 MB</td>
+          <td>3.15 MB</td>
+          <td>0.75 MB</td>
+          <td>3.15 MB</td>
+          <td>3.15 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>232</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-10x8:v9/virtualized-rows:smooth-end-scroll</td>
+          <td>10</td>
+          <td>8</td>
+          <td>3.74 MB</td>
+          <td>3.16 MB</td>
+          <td>0.58 MB</td>
+          <td>3.16 MB</td>
+          <td>3.16 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>232</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8:v9/virtualized-rows:initial</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>3.26 MB</td>
+          <td>2.68 MB</td>
+          <td>0.58 MB</td>
+          <td>2.67 MB</td>
+          <td>2.68 MB</td>
+          <td>31</td>
+          <td>248</td>
+          <td>587</td>
+          <td>166</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8:v9/virtualized-rows:instant-middle-scroll</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>4.22 MB</td>
+          <td>3.82 MB</td>
+          <td>0.40 MB</td>
+          <td>3.82 MB</td>
+          <td>3.82 MB</td>
+          <td>37</td>
+          <td>296</td>
+          <td>691</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8:v9/virtualized-rows:instant-end-scroll</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>4.67 MB</td>
+          <td>3.93 MB</td>
+          <td>0.74 MB</td>
+          <td>3.93 MB</td>
+          <td>3.93 MB</td>
+          <td>30</td>
+          <td>240</td>
+          <td>572</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8:v9/virtualized-rows:smooth-middle-scroll</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>7.76 MB</td>
+          <td>6.12 MB</td>
+          <td>1.64 MB</td>
+          <td>6.12 MB</td>
+          <td>6.12 MB</td>
+          <td>37</td>
+          <td>296</td>
+          <td>691</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000x8:v9/virtualized-rows:smooth-end-scroll</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>10.23 MB</td>
+          <td>7.88 MB</td>
+          <td>2.35 MB</td>
+          <td>7.88 MB</td>
+          <td>7.88 MB</td>
+          <td>30</td>
+          <td>240</td>
+          <td>572</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8:v9/virtualized-rows:initial</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>30.22 MB</td>
+          <td>28.12 MB</td>
+          <td>2.10 MB</td>
+          <td>28.12 MB</td>
+          <td>28.12 MB</td>
+          <td>31</td>
+          <td>248</td>
+          <td>587</td>
+          <td>166</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8:v9/virtualized-rows:instant-middle-scroll</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>29.66 MB</td>
+          <td>29.26 MB</td>
+          <td>0.40 MB</td>
+          <td>29.26 MB</td>
+          <td>29.26 MB</td>
+          <td>37</td>
+          <td>296</td>
+          <td>691</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8:v9/virtualized-rows:instant-end-scroll</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>30.11 MB</td>
+          <td>29.37 MB</td>
+          <td>0.74 MB</td>
+          <td>29.37 MB</td>
+          <td>29.37 MB</td>
+          <td>30</td>
+          <td>240</td>
+          <td>572</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8:v9/virtualized-rows:smooth-middle-scroll</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>36.49 MB</td>
+          <td>35.46 MB</td>
+          <td>1.03 MB</td>
+          <td>35.46 MB</td>
+          <td>35.46 MB</td>
+          <td>37</td>
+          <td>296</td>
+          <td>691</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-100000x8:v9/virtualized-rows:smooth-end-scroll</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>46.70 MB</td>
+          <td>41.09 MB</td>
+          <td>5.61 MB</td>
+          <td>41.09 MB</td>
+          <td>41.10 MB</td>
+          <td>30</td>
+          <td>240</td>
+          <td>572</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000000x8:v9/virtualized-rows:initial</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>279.10 MB</td>
+          <td>261.46 MB</td>
+          <td>17.64 MB</td>
+          <td>261.46 MB</td>
+          <td>261.46 MB</td>
+          <td>31</td>
+          <td>248</td>
+          <td>587</td>
+          <td>166</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000000x8:v9/virtualized-rows:instant-middle-scroll</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>263.00 MB</td>
+          <td>262.60 MB</td>
+          <td>0.40 MB</td>
+          <td>262.60 MB</td>
+          <td>262.60 MB</td>
+          <td>37</td>
+          <td>296</td>
+          <td>691</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000000x8:v9/virtualized-rows:instant-end-scroll</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>263.46 MB</td>
+          <td>262.71 MB</td>
+          <td>0.74 MB</td>
+          <td>262.71 MB</td>
+          <td>262.71 MB</td>
+          <td>30</td>
+          <td>240</td>
+          <td>572</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>rows-1000000x8:v9/virtualized-rows:smooth-scroll-skipped</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>262.73 MB</td>
+          <td>262.71 MB</td>
+          <td>0.02 MB</td>
+          <td>262.71 MB</td>
+          <td>262.71 MB</td>
+          <td>30</td>
+          <td>240</td>
+          <td>572</td>
+          <td>179</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10:v8/virtualized-columns:initial</td>
+          <td>10</td>
+          <td>10</td>
+          <td>2.79 MB</td>
+          <td>2.24 MB</td>
+          <td>0.54 MB</td>
+          <td>2.24 MB</td>
+          <td>2.24 MB</td>
+          <td>10</td>
+          <td>100</td>
+          <td>269</td>
+          <td>161</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10:v8/virtualized-columns:instant-middle-scroll</td>
+          <td>10</td>
+          <td>10</td>
+          <td>3.55 MB</td>
+          <td>3.09 MB</td>
+          <td>0.46 MB</td>
+          <td>3.08 MB</td>
+          <td>3.09 MB</td>
+          <td>10</td>
+          <td>100</td>
+          <td>271</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10:v8/virtualized-columns:instant-end-scroll</td>
+          <td>10</td>
+          <td>10</td>
+          <td>3.48 MB</td>
+          <td>3.19 MB</td>
+          <td>0.29 MB</td>
+          <td>3.19 MB</td>
+          <td>3.20 MB</td>
+          <td>10</td>
+          <td>100</td>
+          <td>271</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10:v8/virtualized-columns:smooth-middle-scroll</td>
+          <td>10</td>
+          <td>10</td>
+          <td>4.33 MB</td>
+          <td>3.33 MB</td>
+          <td>1.01 MB</td>
+          <td>3.32 MB</td>
+          <td>3.33 MB</td>
+          <td>10</td>
+          <td>100</td>
+          <td>271</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10:v8/virtualized-columns:smooth-end-scroll</td>
+          <td>10</td>
+          <td>10</td>
+          <td>4.10 MB</td>
+          <td>3.34 MB</td>
+          <td>0.75 MB</td>
+          <td>3.34 MB</td>
+          <td>3.35 MB</td>
+          <td>10</td>
+          <td>100</td>
+          <td>271</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100:v8/virtualized-columns:initial</td>
+          <td>100</td>
+          <td>100</td>
+          <td>6.13 MB</td>
+          <td>5.31 MB</td>
+          <td>0.82 MB</td>
+          <td>5.31 MB</td>
+          <td>5.31 MB</td>
+          <td>31</td>
+          <td>558</td>
+          <td>1,190</td>
+          <td>161</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100:v8/virtualized-columns:instant-middle-scroll</td>
+          <td>100</td>
+          <td>100</td>
+          <td>9.11 MB</td>
+          <td>8.78 MB</td>
+          <td>0.33 MB</td>
+          <td>8.78 MB</td>
+          <td>8.78 MB</td>
+          <td>37</td>
+          <td>888</td>
+          <td>1,826</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100:v8/virtualized-columns:instant-end-scroll</td>
+          <td>100</td>
+          <td>100</td>
+          <td>10.43 MB</td>
+          <td>10.05 MB</td>
+          <td>0.38 MB</td>
+          <td>10.05 MB</td>
+          <td>10.05 MB</td>
+          <td>30</td>
+          <td>540</td>
+          <td>1,156</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100:v8/virtualized-columns:smooth-middle-scroll</td>
+          <td>100</td>
+          <td>100</td>
+          <td>15.28 MB</td>
+          <td>10.91 MB</td>
+          <td>4.36 MB</td>
+          <td>10.91 MB</td>
+          <td>10.91 MB</td>
+          <td>37</td>
+          <td>888</td>
+          <td>1,826</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100:v8/virtualized-columns:smooth-end-scroll</td>
+          <td>100</td>
+          <td>100</td>
+          <td>13.72 MB</td>
+          <td>10.71 MB</td>
+          <td>3.02 MB</td>
+          <td>10.71 MB</td>
+          <td>10.71 MB</td>
+          <td>30</td>
+          <td>540</td>
+          <td>1,156</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000:v8/virtualized-columns:initial</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>27.02 MB</td>
+          <td>25.82 MB</td>
+          <td>1.20 MB</td>
+          <td>25.82 MB</td>
+          <td>25.82 MB</td>
+          <td>31</td>
+          <td>558</td>
+          <td>1,190</td>
+          <td>161</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000:v8/virtualized-columns:instant-middle-scroll</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>46.04 MB</td>
+          <td>45.66 MB</td>
+          <td>0.38 MB</td>
+          <td>45.66 MB</td>
+          <td>45.66 MB</td>
+          <td>37</td>
+          <td>888</td>
+          <td>1,826</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000:v8/virtualized-columns:instant-end-scroll</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>61.76 MB</td>
+          <td>60.19 MB</td>
+          <td>1.57 MB</td>
+          <td>60.19 MB</td>
+          <td>60.19 MB</td>
+          <td>30</td>
+          <td>540</td>
+          <td>1,156</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000:v8/virtualized-columns:smooth-middle-scroll</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>82.55 MB</td>
+          <td>62.88 MB</td>
+          <td>19.66 MB</td>
+          <td>62.88 MB</td>
+          <td>62.88 MB</td>
+          <td>37</td>
+          <td>888</td>
+          <td>1,826</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000:v8/virtualized-columns:smooth-end-scroll</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>90.96 MB</td>
+          <td>64.48 MB</td>
+          <td>26.48 MB</td>
+          <td>64.48 MB</td>
+          <td>64.48 MB</td>
+          <td>30</td>
+          <td>540</td>
+          <td>1,156</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x10000:v8/virtualized-columns:initial</td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>238.52 MB</td>
+          <td>230.47 MB</td>
+          <td>8.04 MB</td>
+          <td>230.47 MB</td>
+          <td>230.48 MB</td>
+          <td>31</td>
+          <td>558</td>
+          <td>1,190</td>
+          <td>161</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>
+            columns-100x10000:v8/virtualized-columns:instant-middle-scroll
+          </td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>419.77 MB</td>
+          <td>416.60 MB</td>
+          <td>3.16 MB</td>
+          <td>416.60 MB</td>
+          <td>416.60 MB</td>
+          <td>37</td>
+          <td>888</td>
+          <td>1,826</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x10000:v8/virtualized-columns:instant-end-scroll</td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>572.49 MB</td>
+          <td>565.98 MB</td>
+          <td>6.51 MB</td>
+          <td>565.98 MB</td>
+          <td>565.98 MB</td>
+          <td>30</td>
+          <td>540</td>
+          <td>1,156</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x10000:v8/virtualized-columns:smooth-middle-scroll</td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>605.57 MB</td>
+          <td>574.60 MB</td>
+          <td>30.97 MB</td>
+          <td>574.58 MB</td>
+          <td>574.60 MB</td>
+          <td>37</td>
+          <td>888</td>
+          <td>1,826</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x10000:v8/virtualized-columns:smooth-end-scroll</td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>618.86 MB</td>
+          <td>582.13 MB</td>
+          <td>36.73 MB</td>
+          <td>582.13 MB</td>
+          <td>582.13 MB</td>
+          <td>30</td>
+          <td>540</td>
+          <td>1,156</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10:v9/virtualized-columns:initial</td>
+          <td>10</td>
+          <td>10</td>
+          <td>2.79 MB</td>
+          <td>2.24 MB</td>
+          <td>0.55 MB</td>
+          <td>2.24 MB</td>
+          <td>2.24 MB</td>
+          <td>10</td>
+          <td>100</td>
+          <td>269</td>
+          <td>161</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10:v9/virtualized-columns:instant-middle-scroll</td>
+          <td>10</td>
+          <td>10</td>
+          <td>3.56 MB</td>
+          <td>3.10 MB</td>
+          <td>0.46 MB</td>
+          <td>3.09 MB</td>
+          <td>3.10 MB</td>
+          <td>10</td>
+          <td>100</td>
+          <td>271</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10:v9/virtualized-columns:instant-end-scroll</td>
+          <td>10</td>
+          <td>10</td>
+          <td>3.50 MB</td>
+          <td>3.20 MB</td>
+          <td>0.29 MB</td>
+          <td>3.20 MB</td>
+          <td>3.21 MB</td>
+          <td>10</td>
+          <td>100</td>
+          <td>271</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10:v9/virtualized-columns:smooth-middle-scroll</td>
+          <td>10</td>
+          <td>10</td>
+          <td>4.35 MB</td>
+          <td>3.34 MB</td>
+          <td>1.01 MB</td>
+          <td>3.34 MB</td>
+          <td>3.34 MB</td>
+          <td>10</td>
+          <td>100</td>
+          <td>271</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-10x10:v9/virtualized-columns:smooth-end-scroll</td>
+          <td>10</td>
+          <td>10</td>
+          <td>4.10 MB</td>
+          <td>3.35 MB</td>
+          <td>0.76 MB</td>
+          <td>3.35 MB</td>
+          <td>3.35 MB</td>
+          <td>10</td>
+          <td>100</td>
+          <td>271</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100:v9/virtualized-columns:initial</td>
+          <td>100</td>
+          <td>100</td>
+          <td>4.55 MB</td>
+          <td>3.83 MB</td>
+          <td>0.72 MB</td>
+          <td>3.83 MB</td>
+          <td>3.83 MB</td>
+          <td>31</td>
+          <td>558</td>
+          <td>1,190</td>
+          <td>161</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100:v9/virtualized-columns:instant-middle-scroll</td>
+          <td>100</td>
+          <td>100</td>
+          <td>6.72 MB</td>
+          <td>6.35 MB</td>
+          <td>0.37 MB</td>
+          <td>6.35 MB</td>
+          <td>6.35 MB</td>
+          <td>37</td>
+          <td>888</td>
+          <td>1,826</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100:v9/virtualized-columns:instant-end-scroll</td>
+          <td>100</td>
+          <td>100</td>
+          <td>7.03 MB</td>
+          <td>6.64 MB</td>
+          <td>0.38 MB</td>
+          <td>6.64 MB</td>
+          <td>6.64 MB</td>
+          <td>30</td>
+          <td>540</td>
+          <td>1,156</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100:v9/virtualized-columns:smooth-middle-scroll</td>
+          <td>100</td>
+          <td>100</td>
+          <td>11.27 MB</td>
+          <td>8.21 MB</td>
+          <td>3.06 MB</td>
+          <td>8.21 MB</td>
+          <td>8.21 MB</td>
+          <td>37</td>
+          <td>888</td>
+          <td>1,826</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x100:v9/virtualized-columns:smooth-end-scroll</td>
+          <td>100</td>
+          <td>100</td>
+          <td>15.67 MB</td>
+          <td>8.39 MB</td>
+          <td>7.28 MB</td>
+          <td>8.39 MB</td>
+          <td>8.39 MB</td>
+          <td>30</td>
+          <td>540</td>
+          <td>1,156</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000:v9/virtualized-columns:initial</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>12.72 MB</td>
+          <td>10.73 MB</td>
+          <td>1.99 MB</td>
+          <td>10.73 MB</td>
+          <td>10.73 MB</td>
+          <td>31</td>
+          <td>558</td>
+          <td>1,190</td>
+          <td>161</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000:v9/virtualized-columns:instant-middle-scroll</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>15.53 MB</td>
+          <td>15.18 MB</td>
+          <td>0.35 MB</td>
+          <td>15.18 MB</td>
+          <td>15.19 MB</td>
+          <td>37</td>
+          <td>888</td>
+          <td>1,826</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000:v9/virtualized-columns:instant-end-scroll</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>17.45 MB</td>
+          <td>17.05 MB</td>
+          <td>0.40 MB</td>
+          <td>17.05 MB</td>
+          <td>17.06 MB</td>
+          <td>30</td>
+          <td>540</td>
+          <td>1,156</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000:v9/virtualized-columns:smooth-middle-scroll</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>37.56 MB</td>
+          <td>25.77 MB</td>
+          <td>11.79 MB</td>
+          <td>25.77 MB</td>
+          <td>25.77 MB</td>
+          <td>37</td>
+          <td>888</td>
+          <td>1,826</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x1000:v9/virtualized-columns:smooth-end-scroll</td>
+          <td>100</td>
+          <td>1,000</td>
+          <td>42.70 MB</td>
+          <td>32.97 MB</td>
+          <td>9.74 MB</td>
+          <td>32.96 MB</td>
+          <td>32.97 MB</td>
+          <td>30</td>
+          <td>540</td>
+          <td>1,156</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x10000:v9/virtualized-columns:initial</td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>90.63 MB</td>
+          <td>80.24 MB</td>
+          <td>10.39 MB</td>
+          <td>80.24 MB</td>
+          <td>80.24 MB</td>
+          <td>31</td>
+          <td>558</td>
+          <td>1,190</td>
+          <td>161</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>
+            columns-100x10000:v9/virtualized-columns:instant-middle-scroll
+          </td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>107.88 MB</td>
+          <td>107.51 MB</td>
+          <td>0.37 MB</td>
+          <td>107.51 MB</td>
+          <td>107.51 MB</td>
+          <td>37</td>
+          <td>888</td>
+          <td>1,826</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x10000:v9/virtualized-columns:instant-end-scroll</td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>130.00 MB</td>
+          <td>127.89 MB</td>
+          <td>2.11 MB</td>
+          <td>127.89 MB</td>
+          <td>127.89 MB</td>
+          <td>30</td>
+          <td>540</td>
+          <td>1,156</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x10000:v9/virtualized-columns:smooth-middle-scroll</td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>170.13 MB</td>
+          <td>143.89 MB</td>
+          <td>26.24 MB</td>
+          <td>143.89 MB</td>
+          <td>143.89 MB</td>
+          <td>37</td>
+          <td>888</td>
+          <td>1,826</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>columns-100x10000:v9/virtualized-columns:smooth-end-scroll</td>
+          <td>100</td>
+          <td>10,000</td>
+          <td>182.35 MB</td>
+          <td>158.46 MB</td>
+          <td>23.89 MB</td>
+          <td>158.46 MB</td>
+          <td>158.46 MB</td>
+          <td>30</td>
+          <td>540</td>
+          <td>1,156</td>
+          <td>174</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-10x8:v8/paginated-rows:initial</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.73 MB</td>
+          <td>1.93 MB</td>
+          <td>0.80 MB</td>
+          <td>1.93 MB</td>
+          <td>1.93 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>247</td>
+          <td>167</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-10x8:v8/paginated-rows:next-page</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.74 MB</td>
+          <td>2.55 MB</td>
+          <td>0.19 MB</td>
+          <td>2.55 MB</td>
+          <td>2.55 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>249</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-10x8:v8/paginated-rows:last-page</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.63 MB</td>
+          <td>2.56 MB</td>
+          <td>0.07 MB</td>
+          <td>2.56 MB</td>
+          <td>2.56 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>251</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000x8:v8/paginated-rows:initial</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>5.29 MB</td>
+          <td>4.71 MB</td>
+          <td>0.58 MB</td>
+          <td>4.71 MB</td>
+          <td>4.71 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>247</td>
+          <td>167</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000x8:v8/paginated-rows:next-page</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>6.02 MB</td>
+          <td>5.64 MB</td>
+          <td>0.38 MB</td>
+          <td>5.64 MB</td>
+          <td>5.64 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>248</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000x8:v8/paginated-rows:last-page</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>6.01 MB</td>
+          <td>5.77 MB</td>
+          <td>0.24 MB</td>
+          <td>5.77 MB</td>
+          <td>5.77 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>249</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-100000x8:v8/paginated-rows:initial</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>276.92 MB</td>
+          <td>272.58 MB</td>
+          <td>4.33 MB</td>
+          <td>272.58 MB</td>
+          <td>272.58 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>247</td>
+          <td>167</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-100000x8:v8/paginated-rows:next-page</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>273.89 MB</td>
+          <td>273.51 MB</td>
+          <td>0.38 MB</td>
+          <td>273.51 MB</td>
+          <td>273.51 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>248</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-100000x8:v8/paginated-rows:last-page</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>273.89 MB</td>
+          <td>273.65 MB</td>
+          <td>0.24 MB</td>
+          <td>273.65 MB</td>
+          <td>273.65 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>249</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000000x8:v8/paginated-rows:initial</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2723.07 MB</td>
+          <td>2710.06 MB</td>
+          <td>13.01 MB</td>
+          <td>2710.06 MB</td>
+          <td>2710.06 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>247</td>
+          <td>167</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000000x8:v8/paginated-rows:next-page</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2711.37 MB</td>
+          <td>2710.98 MB</td>
+          <td>0.38 MB</td>
+          <td>2710.98 MB</td>
+          <td>2710.98 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>248</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000000x8:v8/paginated-rows:last-page</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2711.36 MB</td>
+          <td>2711.12 MB</td>
+          <td>0.24 MB</td>
+          <td>2711.12 MB</td>
+          <td>2711.12 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>249</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-10x8:v9/paginated-rows:initial</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.72 MB</td>
+          <td>1.91 MB</td>
+          <td>0.81 MB</td>
+          <td>1.91 MB</td>
+          <td>1.91 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>247</td>
+          <td>167</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-10x8:v9/paginated-rows:next-page</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.72 MB</td>
+          <td>2.53 MB</td>
+          <td>0.19 MB</td>
+          <td>2.53 MB</td>
+          <td>2.53 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>249</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-10x8:v9/paginated-rows:last-page</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.61 MB</td>
+          <td>2.54 MB</td>
+          <td>0.07 MB</td>
+          <td>2.54 MB</td>
+          <td>2.54 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>251</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000x8:v9/paginated-rows:initial</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>2.79 MB</td>
+          <td>2.22 MB</td>
+          <td>0.57 MB</td>
+          <td>2.22 MB</td>
+          <td>2.22 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>247</td>
+          <td>167</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000x8:v9/paginated-rows:next-page</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>3.64 MB</td>
+          <td>3.20 MB</td>
+          <td>0.43 MB</td>
+          <td>3.20 MB</td>
+          <td>3.20 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>248</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000x8:v9/paginated-rows:last-page</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>3.60 MB</td>
+          <td>3.31 MB</td>
+          <td>0.28 MB</td>
+          <td>3.31 MB</td>
+          <td>3.31 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>249</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-100000x8:v9/paginated-rows:initial</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>28.95 MB</td>
+          <td>27.28 MB</td>
+          <td>1.67 MB</td>
+          <td>27.28 MB</td>
+          <td>27.28 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>247</td>
+          <td>167</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-100000x8:v9/paginated-rows:next-page</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>28.70 MB</td>
+          <td>28.26 MB</td>
+          <td>0.43 MB</td>
+          <td>28.26 MB</td>
+          <td>28.26 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>248</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-100000x8:v9/paginated-rows:last-page</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>28.65 MB</td>
+          <td>28.37 MB</td>
+          <td>0.28 MB</td>
+          <td>28.37 MB</td>
+          <td>28.37 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>249</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000000x8:v9/paginated-rows:initial</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>269.41 MB</td>
+          <td>257.19 MB</td>
+          <td>12.23 MB</td>
+          <td>257.19 MB</td>
+          <td>257.19 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>247</td>
+          <td>167</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000000x8:v9/paginated-rows:next-page</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>258.60 MB</td>
+          <td>258.17 MB</td>
+          <td>0.43 MB</td>
+          <td>258.17 MB</td>
+          <td>258.17 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>248</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>paginated-rows-1000000x8:v9/paginated-rows:last-page</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>258.56 MB</td>
+          <td>258.28 MB</td>
+          <td>0.28 MB</td>
+          <td>258.28 MB</td>
+          <td>258.28 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>249</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-10x8:v8/kitchen-sink:initial</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.72 MB</td>
+          <td>2.18 MB</td>
+          <td>0.55 MB</td>
+          <td>2.18 MB</td>
+          <td>2.18 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>255</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-10x8:v8/kitchen-sink:next-page</td>
+          <td>10</td>
+          <td>8</td>
+          <td>3.00 MB</td>
+          <td>2.81 MB</td>
+          <td>0.20 MB</td>
+          <td>2.81 MB</td>
+          <td>2.81 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>257</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-10x8:v8/kitchen-sink:last-page</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.89 MB</td>
+          <td>2.82 MB</td>
+          <td>0.07 MB</td>
+          <td>2.82 MB</td>
+          <td>2.82 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>259</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000x8:v8/kitchen-sink:initial</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>5.55 MB</td>
+          <td>4.96 MB</td>
+          <td>0.59 MB</td>
+          <td>4.96 MB</td>
+          <td>4.96 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>255</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000x8:v8/kitchen-sink:next-page</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>6.22 MB</td>
+          <td>5.79 MB</td>
+          <td>0.43 MB</td>
+          <td>5.79 MB</td>
+          <td>5.79 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>256</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000x8:v8/kitchen-sink:last-page</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>6.14 MB</td>
+          <td>5.89 MB</td>
+          <td>0.25 MB</td>
+          <td>5.89 MB</td>
+          <td>5.89 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>257</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-100000x8:v8/kitchen-sink:initial</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>282.53 MB</td>
+          <td>272.83 MB</td>
+          <td>9.70 MB</td>
+          <td>272.83 MB</td>
+          <td>272.83 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>255</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-100000x8:v8/kitchen-sink:next-page</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>274.10 MB</td>
+          <td>273.66 MB</td>
+          <td>0.44 MB</td>
+          <td>273.66 MB</td>
+          <td>273.66 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>256</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-100000x8:v8/kitchen-sink:last-page</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>274.01 MB</td>
+          <td>273.76 MB</td>
+          <td>0.25 MB</td>
+          <td>273.76 MB</td>
+          <td>273.76 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>257</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000000x8:v8/kitchen-sink:initial</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2774.29 MB</td>
+          <td>2710.31 MB</td>
+          <td>63.99 MB</td>
+          <td>2710.31 MB</td>
+          <td>2710.31 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>255</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000000x8:v8/kitchen-sink:next-page</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2711.57 MB</td>
+          <td>2711.14 MB</td>
+          <td>0.43 MB</td>
+          <td>2711.14 MB</td>
+          <td>2711.14 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>256</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000000x8:v8/kitchen-sink:last-page</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>2711.49 MB</td>
+          <td>2711.24 MB</td>
+          <td>0.25 MB</td>
+          <td>2711.24 MB</td>
+          <td>2711.24 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>257</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-10x8:v9/kitchen-sink:initial</td>
+          <td>10</td>
+          <td>8</td>
+          <td>2.98 MB</td>
+          <td>2.38 MB</td>
+          <td>0.60 MB</td>
+          <td>2.38 MB</td>
+          <td>2.38 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>255</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-10x8:v9/kitchen-sink:next-page</td>
+          <td>10</td>
+          <td>8</td>
+          <td>3.20 MB</td>
+          <td>3.01 MB</td>
+          <td>0.20 MB</td>
+          <td>3.01 MB</td>
+          <td>3.01 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>257</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-10x8:v9/kitchen-sink:last-page</td>
+          <td>10</td>
+          <td>8</td>
+          <td>3.09 MB</td>
+          <td>3.02 MB</td>
+          <td>0.07 MB</td>
+          <td>3.02 MB</td>
+          <td>3.02 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>259</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000x8:v9/kitchen-sink:initial</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>3.50 MB</td>
+          <td>2.79 MB</td>
+          <td>0.71 MB</td>
+          <td>2.79 MB</td>
+          <td>2.79 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>255</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000x8:v9/kitchen-sink:next-page</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>4.14 MB</td>
+          <td>3.61 MB</td>
+          <td>0.53 MB</td>
+          <td>3.61 MB</td>
+          <td>3.62 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>256</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000x8:v9/kitchen-sink:last-page</td>
+          <td>1,000</td>
+          <td>8</td>
+          <td>4.06 MB</td>
+          <td>3.72 MB</td>
+          <td>0.34 MB</td>
+          <td>3.72 MB</td>
+          <td>3.73 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>257</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-100000x8:v9/kitchen-sink:initial</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>48.23 MB</td>
+          <td>36.91 MB</td>
+          <td>11.32 MB</td>
+          <td>36.91 MB</td>
+          <td>36.91 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>255</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-100000x8:v9/kitchen-sink:next-page</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>38.26 MB</td>
+          <td>37.73 MB</td>
+          <td>0.53 MB</td>
+          <td>37.73 MB</td>
+          <td>37.73 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>256</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-100000x8:v9/kitchen-sink:last-page</td>
+          <td>100,000</td>
+          <td>8</td>
+          <td>38.18 MB</td>
+          <td>37.84 MB</td>
+          <td>0.34 MB</td>
+          <td>37.84 MB</td>
+          <td>37.85 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>257</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000000x8:v9/kitchen-sink:initial</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>422.20 MB</td>
+          <td>349.22 MB</td>
+          <td>72.98 MB</td>
+          <td>349.21 MB</td>
+          <td>349.22 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>255</td>
+          <td>180</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000000x8:v9/kitchen-sink:next-page</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>350.57 MB</td>
+          <td>350.04 MB</td>
+          <td>0.53 MB</td>
+          <td>350.04 MB</td>
+          <td>350.04 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>256</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>kitchen-sink-1000000x8:v9/kitchen-sink:last-page</td>
+          <td>1,000,000</td>
+          <td>8</td>
+          <td>350.49 MB</td>
+          <td>350.15 MB</td>
+          <td>0.34 MB</td>
+          <td>350.15 MB</td>
+          <td>350.15 MB</td>
+          <td>10</td>
+          <td>80</td>
+          <td>257</td>
+          <td>193</td>
+          <td>5</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
