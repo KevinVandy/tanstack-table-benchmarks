@@ -1,0 +1,3082 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TanStack Table Operation Benchmark Results</title>
+    <style>
+      body {
+        color: #111827;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        margin: 32px;
+      }
+      h1, h2 {
+        margin: 0 0 16px;
+      }
+      table {
+        border-collapse: collapse;
+        font-size: 14px;
+        margin-bottom: 32px;
+        min-width: 980px;
+        width: 100%;
+      }
+      th, td {
+        border-bottom: 1px solid #e5e7eb;
+        padding: 8px 10px;
+        text-align: right;
+        white-space: nowrap;
+      }
+      th:first-child, td:first-child,
+      th:nth-child(2), td:nth-child(2),
+      th:nth-child(3), td:nth-child(3) {
+        text-align: left;
+      }
+      th {
+        background: #f3f4f6;
+        color: #374151;
+        font-weight: 600;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .meta span {
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        padding: 6px 8px;
+      }
+      .ok {
+        color: #047857;
+        font-weight: 600;
+      }
+      .warn {
+        color: #b45309;
+        font-weight: 600;
+      }
+      .faster {
+        color: #047857;
+        font-weight: 600;
+      }
+      .slower {
+        color: #b91c1c;
+        font-weight: 600;
+      }
+      .neutral {
+        color: #374151;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>TanStack Table Operation Benchmark Results</h1>
+    <div class="meta">
+      <span>Operation: all</span>
+      <span>Scenario: all</span>
+      <span>Pipeline: operation</span>
+      <span>Rows: 30000, 300000</span>
+      <span>Iterations: 3</span>
+      <span>Warmups: 0</span>
+      <span>Include v9-only: yes</span>
+      <span>Case timeout: 120,000 ms</span>
+    </div>
+
+    <h2>Errors</h2>
+    <p>No benchmark errors recorded.</p>
+
+    <h2>v9 vs v8 Median Duration</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Operation</th>
+          <th>Scenario</th>
+          <th>Direction</th>
+          <th>Pipeline</th>
+          <th>Rows</th>
+          <th>v8 Median</th>
+          <th>v9 Median</th>
+          <th>v9 Less</th>
+          <th>v9 Less %</th>
+          <th>Rows Match</th>
+          <th>Checksum Match</th>
+          <th>Samples</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>sorting</td>
+          <td>alphanumeric</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>115.200 ms</td>
+          <td class="faster">76.200 ms</td>
+          <td class="faster">39.000 ms</td>
+          <td class="faster">33.9%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumeric</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>1265.400 ms</td>
+          <td class="faster">938.000 ms</td>
+          <td class="faster">327.400 ms</td>
+          <td class="faster">25.9%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumeric</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>119.100 ms</td>
+          <td class="faster">85.200 ms</td>
+          <td class="faster">33.900 ms</td>
+          <td class="faster">28.5%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumeric</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>1294.400 ms</td>
+          <td class="faster">947.400 ms</td>
+          <td class="faster">347.000 ms</td>
+          <td class="faster">26.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumericCaseSensitive</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>128.800 ms</td>
+          <td class="faster">87.600 ms</td>
+          <td class="faster">41.200 ms</td>
+          <td class="faster">32.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumericCaseSensitive</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>1499.700 ms</td>
+          <td class="faster">1074.100 ms</td>
+          <td class="faster">425.600 ms</td>
+          <td class="faster">28.4%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumericCaseSensitive</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>130.400 ms</td>
+          <td class="faster">88.100 ms</td>
+          <td class="faster">42.300 ms</td>
+          <td class="faster">32.4%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumericCaseSensitive</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>1507.700 ms</td>
+          <td class="faster">1052.100 ms</td>
+          <td class="faster">455.600 ms</td>
+          <td class="faster">30.2%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>text</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>54.700 ms</td>
+          <td class="faster">41.500 ms</td>
+          <td class="faster">13.200 ms</td>
+          <td class="faster">24.1%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>text</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>969.300 ms</td>
+          <td class="faster">903.500 ms</td>
+          <td class="faster">65.800 ms</td>
+          <td class="faster">6.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>text</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>56.100 ms</td>
+          <td class="faster">47.500 ms</td>
+          <td class="faster">8.600 ms</td>
+          <td class="faster">15.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>text</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>969.700 ms</td>
+          <td class="faster">908.700 ms</td>
+          <td class="faster">61.000 ms</td>
+          <td class="faster">6.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>textCaseSensitive</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>49.500 ms</td>
+          <td class="faster">32.100 ms</td>
+          <td class="faster">17.400 ms</td>
+          <td class="faster">35.2%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>textCaseSensitive</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>895.500 ms</td>
+          <td class="faster">802.100 ms</td>
+          <td class="faster">93.400 ms</td>
+          <td class="faster">10.4%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>textCaseSensitive</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>48.200 ms</td>
+          <td class="faster">37.600 ms</td>
+          <td class="faster">10.600 ms</td>
+          <td class="faster">22.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>textCaseSensitive</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>898.500 ms</td>
+          <td class="faster">762.700 ms</td>
+          <td class="faster">135.800 ms</td>
+          <td class="faster">15.1%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>datetime</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>53.800 ms</td>
+          <td class="faster">48.400 ms</td>
+          <td class="faster">5.400 ms</td>
+          <td class="faster">10.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>datetime</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>533.600 ms</td>
+          <td class="faster">504.300 ms</td>
+          <td class="faster">29.300 ms</td>
+          <td class="faster">5.5%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>datetime</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>52.600 ms</td>
+          <td class="faster">45.600 ms</td>
+          <td class="faster">7.000 ms</td>
+          <td class="faster">13.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>datetime</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>493.000 ms</td>
+          <td class="faster">462.600 ms</td>
+          <td class="faster">30.400 ms</td>
+          <td class="faster">6.2%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>basic</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>47.700 ms</td>
+          <td class="faster">29.200 ms</td>
+          <td class="faster">18.500 ms</td>
+          <td class="faster">38.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>basic</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>723.500 ms</td>
+          <td class="faster">607.400 ms</td>
+          <td class="faster">116.100 ms</td>
+          <td class="faster">16.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>basic</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>50.600 ms</td>
+          <td class="faster">33.200 ms</td>
+          <td class="faster">17.400 ms</td>
+          <td class="faster">34.4%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>basic</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>775.700 ms</td>
+          <td class="faster">631.500 ms</td>
+          <td class="faster">144.200 ms</td>
+          <td class="faster">18.6%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>includesString</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>8.800 ms</td>
+          <td class="faster">7.500 ms</td>
+          <td class="faster">1.300 ms</td>
+          <td class="faster">14.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>includesString</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>69.200 ms</td>
+          <td class="faster">66.500 ms</td>
+          <td class="faster">2.700 ms</td>
+          <td class="faster">3.9%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>includesStringSensitive</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>8.300 ms</td>
+          <td class="faster">5.100 ms</td>
+          <td class="faster">3.200 ms</td>
+          <td class="faster">38.6%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>includesStringSensitive</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>76.800 ms</td>
+          <td class="faster">53.800 ms</td>
+          <td class="faster">23.000 ms</td>
+          <td class="faster">29.9%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>equalsString</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>7.900 ms</td>
+          <td class="faster">6.400 ms</td>
+          <td class="faster">1.500 ms</td>
+          <td class="faster">19.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>equalsString</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>87.400 ms</td>
+          <td class="faster">80.800 ms</td>
+          <td class="faster">6.600 ms</td>
+          <td class="faster">7.6%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludes</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>10.500 ms</td>
+          <td class="faster">4.000 ms</td>
+          <td class="faster">6.500 ms</td>
+          <td class="faster">61.9%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludes</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>82.600 ms</td>
+          <td class="faster">53.700 ms</td>
+          <td class="faster">28.900 ms</td>
+          <td class="faster">35.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludesAll</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>7.800 ms</td>
+          <td class="faster">6.500 ms</td>
+          <td class="faster">1.300 ms</td>
+          <td class="faster">16.7%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludesAll</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>82.900 ms</td>
+          <td class="faster">55.200 ms</td>
+          <td class="faster">27.700 ms</td>
+          <td class="faster">33.4%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludesSome</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>10.900 ms</td>
+          <td class="faster">7.400 ms</td>
+          <td class="faster">3.500 ms</td>
+          <td class="faster">32.1%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludesSome</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>82.600 ms</td>
+          <td class="faster">61.700 ms</td>
+          <td class="faster">20.900 ms</td>
+          <td class="faster">25.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>equals</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>6.800 ms</td>
+          <td class="faster">6.500 ms</td>
+          <td class="faster">0.300 ms</td>
+          <td class="faster">4.4%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>equals</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>73.100 ms</td>
+          <td class="faster">66.700 ms</td>
+          <td class="faster">6.400 ms</td>
+          <td class="faster">8.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>weakEquals</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>9.500 ms</td>
+          <td class="faster">6.300 ms</td>
+          <td class="faster">3.200 ms</td>
+          <td class="faster">33.7%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>weakEquals</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>73.800 ms</td>
+          <td class="faster">43.800 ms</td>
+          <td class="faster">30.000 ms</td>
+          <td class="faster">40.7%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>inNumberRange</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>7.600 ms</td>
+          <td class="faster">6.700 ms</td>
+          <td class="faster">0.900 ms</td>
+          <td class="faster">11.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>inNumberRange</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>86.200 ms</td>
+          <td class="faster">53.600 ms</td>
+          <td class="faster">32.600 ms</td>
+          <td class="faster">37.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>sum</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>27.400 ms</td>
+          <td class="faster">11.500 ms</td>
+          <td class="faster">15.900 ms</td>
+          <td class="faster">58.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>sum</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>320.200 ms</td>
+          <td class="faster">188.700 ms</td>
+          <td class="faster">131.500 ms</td>
+          <td class="faster">41.1%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>min</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>24.800 ms</td>
+          <td class="faster">12.000 ms</td>
+          <td class="faster">12.800 ms</td>
+          <td class="faster">51.6%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>min</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>326.800 ms</td>
+          <td class="faster">171.800 ms</td>
+          <td class="faster">155.000 ms</td>
+          <td class="faster">47.4%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>max</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>25.900 ms</td>
+          <td class="faster">9.800 ms</td>
+          <td class="faster">16.100 ms</td>
+          <td class="faster">62.2%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>max</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>328.600 ms</td>
+          <td class="faster">178.300 ms</td>
+          <td class="faster">150.300 ms</td>
+          <td class="faster">45.7%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>extent</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>26.200 ms</td>
+          <td class="faster">8.900 ms</td>
+          <td class="faster">17.300 ms</td>
+          <td class="faster">66.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>extent</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>316.000 ms</td>
+          <td class="faster">186.300 ms</td>
+          <td class="faster">129.700 ms</td>
+          <td class="faster">41.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>mean</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>25.700 ms</td>
+          <td class="faster">9.300 ms</td>
+          <td class="faster">16.400 ms</td>
+          <td class="faster">63.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>mean</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>326.000 ms</td>
+          <td class="faster">180.600 ms</td>
+          <td class="faster">145.400 ms</td>
+          <td class="faster">44.6%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>median</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>27.000 ms</td>
+          <td class="faster">15.500 ms</td>
+          <td class="faster">11.500 ms</td>
+          <td class="faster">42.6%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>median</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>362.900 ms</td>
+          <td class="faster">186.000 ms</td>
+          <td class="faster">176.900 ms</td>
+          <td class="faster">48.7%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>unique</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>25.600 ms</td>
+          <td class="faster">11.300 ms</td>
+          <td class="faster">14.300 ms</td>
+          <td class="faster">55.9%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>unique</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>333.500 ms</td>
+          <td class="faster">170.700 ms</td>
+          <td class="faster">162.800 ms</td>
+          <td class="faster">48.8%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>uniqueCount</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>24.100 ms</td>
+          <td class="faster">8.700 ms</td>
+          <td class="faster">15.400 ms</td>
+          <td class="faster">63.9%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>uniqueCount</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>327.500 ms</td>
+          <td class="faster">173.700 ms</td>
+          <td class="faster">153.800 ms</td>
+          <td class="faster">47.0%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>count</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>19.300 ms</td>
+          <td class="faster">5.100 ms</td>
+          <td class="faster">14.200 ms</td>
+          <td class="faster">73.6%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>count</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>231.800 ms</td>
+          <td class="faster">82.700 ms</td>
+          <td class="faster">149.100 ms</td>
+          <td class="faster">64.3%</td>
+          <td class="ok">yes</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>v9-only FilterFns</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>Rows</th>
+          <th>Median</th>
+          <th>P75</th>
+          <th>P95</th>
+          <th>Min</th>
+          <th>Max</th>
+          <th>Output Rows</th>
+          <th>Checksum Stable</th>
+          <th>Samples</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>arrHas</td>
+          <td>30,000</td>
+          <td>7.500 ms</td>
+          <td>8.600 ms</td>
+          <td>8.600 ms</td>
+          <td>4.300 ms</td>
+          <td>8.600 ms</td>
+          <td>20,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>arrHas</td>
+          <td>300,000</td>
+          <td>74.100 ms</td>
+          <td>255.400 ms</td>
+          <td>255.400 ms</td>
+          <td>60.600 ms</td>
+          <td>255.400 ms</td>
+          <td>200,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>between</td>
+          <td>30,000</td>
+          <td>8.400 ms</td>
+          <td>8.600 ms</td>
+          <td>8.600 ms</td>
+          <td>7.900 ms</td>
+          <td>8.600 ms</td>
+          <td>7,500</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>between</td>
+          <td>300,000</td>
+          <td>58.600 ms</td>
+          <td>60.100 ms</td>
+          <td>60.100 ms</td>
+          <td>58.100 ms</td>
+          <td>60.100 ms</td>
+          <td>74,997</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>betweenInclusive</td>
+          <td>30,000</td>
+          <td>7.000 ms</td>
+          <td>7.200 ms</td>
+          <td>7.200 ms</td>
+          <td>4.500 ms</td>
+          <td>7.200 ms</td>
+          <td>7,500</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>betweenInclusive</td>
+          <td>300,000</td>
+          <td>59.600 ms</td>
+          <td>76.500 ms</td>
+          <td>76.500 ms</td>
+          <td>56.100 ms</td>
+          <td>76.500 ms</td>
+          <td>75,003</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Raw Summary</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Operation</th>
+          <th>Scenario</th>
+          <th>Direction</th>
+          <th>Pipeline</th>
+          <th>Rows</th>
+          <th>Version</th>
+          <th>Median</th>
+          <th>P75</th>
+          <th>P95</th>
+          <th>Min</th>
+          <th>Max</th>
+          <th>Output Rows</th>
+          <th>Checksum Stable</th>
+          <th>Samples</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>sorting</td>
+          <td>alphanumeric</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>115.200 ms</td>
+          <td>181.200 ms</td>
+          <td>181.200 ms</td>
+          <td>113.900 ms</td>
+          <td>181.200 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumeric</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>1265.400 ms</td>
+          <td>1292.200 ms</td>
+          <td>1292.200 ms</td>
+          <td>1252.900 ms</td>
+          <td>1292.200 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumeric</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>119.100 ms</td>
+          <td>121.700 ms</td>
+          <td>121.700 ms</td>
+          <td>118.900 ms</td>
+          <td>121.700 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumeric</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>1294.400 ms</td>
+          <td>1469.500 ms</td>
+          <td>1469.500 ms</td>
+          <td>1268.000 ms</td>
+          <td>1469.500 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumericCaseSensitive</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>128.800 ms</td>
+          <td>130.000 ms</td>
+          <td>130.000 ms</td>
+          <td>128.200 ms</td>
+          <td>130.000 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumericCaseSensitive</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>1499.700 ms</td>
+          <td>1507.700 ms</td>
+          <td>1507.700 ms</td>
+          <td>1463.800 ms</td>
+          <td>1507.700 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumericCaseSensitive</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>130.400 ms</td>
+          <td>132.800 ms</td>
+          <td>132.800 ms</td>
+          <td>129.900 ms</td>
+          <td>132.800 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumericCaseSensitive</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>1507.700 ms</td>
+          <td>1570.200 ms</td>
+          <td>1570.200 ms</td>
+          <td>1463.300 ms</td>
+          <td>1570.200 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>text</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>54.700 ms</td>
+          <td>55.200 ms</td>
+          <td>55.200 ms</td>
+          <td>52.500 ms</td>
+          <td>55.200 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>text</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>969.300 ms</td>
+          <td>975.300 ms</td>
+          <td>975.300 ms</td>
+          <td>965.500 ms</td>
+          <td>975.300 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>text</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>56.100 ms</td>
+          <td>60.900 ms</td>
+          <td>60.900 ms</td>
+          <td>52.600 ms</td>
+          <td>60.900 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>text</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>969.700 ms</td>
+          <td>989.300 ms</td>
+          <td>989.300 ms</td>
+          <td>965.400 ms</td>
+          <td>989.300 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>textCaseSensitive</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>49.500 ms</td>
+          <td>51.300 ms</td>
+          <td>51.300 ms</td>
+          <td>47.600 ms</td>
+          <td>51.300 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>textCaseSensitive</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>895.500 ms</td>
+          <td>897.300 ms</td>
+          <td>897.300 ms</td>
+          <td>892.100 ms</td>
+          <td>897.300 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>textCaseSensitive</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>48.200 ms</td>
+          <td>61.800 ms</td>
+          <td>61.800 ms</td>
+          <td>47.600 ms</td>
+          <td>61.800 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>textCaseSensitive</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>898.500 ms</td>
+          <td>905.600 ms</td>
+          <td>905.600 ms</td>
+          <td>895.400 ms</td>
+          <td>905.600 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>datetime</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>53.800 ms</td>
+          <td>55.600 ms</td>
+          <td>55.600 ms</td>
+          <td>53.600 ms</td>
+          <td>55.600 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>datetime</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>533.600 ms</td>
+          <td>535.700 ms</td>
+          <td>535.700 ms</td>
+          <td>531.800 ms</td>
+          <td>535.700 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>datetime</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>52.600 ms</td>
+          <td>75.200 ms</td>
+          <td>75.200 ms</td>
+          <td>52.000 ms</td>
+          <td>75.200 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>datetime</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>493.000 ms</td>
+          <td>504.700 ms</td>
+          <td>504.700 ms</td>
+          <td>492.300 ms</td>
+          <td>504.700 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>basic</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>47.700 ms</td>
+          <td>48.800 ms</td>
+          <td>48.800 ms</td>
+          <td>41.100 ms</td>
+          <td>48.800 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>basic</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>723.500 ms</td>
+          <td>731.100 ms</td>
+          <td>731.100 ms</td>
+          <td>716.800 ms</td>
+          <td>731.100 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>basic</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>50.600 ms</td>
+          <td>61.200 ms</td>
+          <td>61.200 ms</td>
+          <td>43.200 ms</td>
+          <td>61.200 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>basic</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>775.700 ms</td>
+          <td>784.000 ms</td>
+          <td>784.000 ms</td>
+          <td>765.900 ms</td>
+          <td>784.000 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumeric</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>76.200 ms</td>
+          <td>79.600 ms</td>
+          <td>79.600 ms</td>
+          <td>75.200 ms</td>
+          <td>79.600 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumeric</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>938.000 ms</td>
+          <td>979.600 ms</td>
+          <td>979.600 ms</td>
+          <td>829.100 ms</td>
+          <td>979.600 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumeric</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>85.200 ms</td>
+          <td>85.200 ms</td>
+          <td>85.200 ms</td>
+          <td>84.900 ms</td>
+          <td>85.200 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumeric</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>947.400 ms</td>
+          <td>965.200 ms</td>
+          <td>965.200 ms</td>
+          <td>944.500 ms</td>
+          <td>965.200 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumericCaseSensitive</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>87.600 ms</td>
+          <td>88.500 ms</td>
+          <td>88.500 ms</td>
+          <td>87.100 ms</td>
+          <td>88.500 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumericCaseSensitive</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>1074.100 ms</td>
+          <td>1096.500 ms</td>
+          <td>1096.500 ms</td>
+          <td>1027.200 ms</td>
+          <td>1096.500 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumericCaseSensitive</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>88.100 ms</td>
+          <td>88.800 ms</td>
+          <td>88.800 ms</td>
+          <td>86.000 ms</td>
+          <td>88.800 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>alphanumericCaseSensitive</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>1052.100 ms</td>
+          <td>1053.700 ms</td>
+          <td>1053.700 ms</td>
+          <td>1048.000 ms</td>
+          <td>1053.700 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>text</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>41.500 ms</td>
+          <td>41.500 ms</td>
+          <td>41.500 ms</td>
+          <td>40.200 ms</td>
+          <td>41.500 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>text</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>903.500 ms</td>
+          <td>920.900 ms</td>
+          <td>920.900 ms</td>
+          <td>836.600 ms</td>
+          <td>920.900 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>text</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>47.500 ms</td>
+          <td>47.700 ms</td>
+          <td>47.700 ms</td>
+          <td>45.100 ms</td>
+          <td>47.700 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>text</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>908.700 ms</td>
+          <td>925.900 ms</td>
+          <td>925.900 ms</td>
+          <td>905.600 ms</td>
+          <td>925.900 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>textCaseSensitive</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>32.100 ms</td>
+          <td>32.200 ms</td>
+          <td>32.200 ms</td>
+          <td>32.000 ms</td>
+          <td>32.200 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>textCaseSensitive</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>802.100 ms</td>
+          <td>888.900 ms</td>
+          <td>888.900 ms</td>
+          <td>720.300 ms</td>
+          <td>888.900 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>textCaseSensitive</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>37.600 ms</td>
+          <td>38.700 ms</td>
+          <td>38.700 ms</td>
+          <td>37.400 ms</td>
+          <td>38.700 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>textCaseSensitive</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>762.700 ms</td>
+          <td>796.600 ms</td>
+          <td>796.600 ms</td>
+          <td>761.200 ms</td>
+          <td>796.600 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>datetime</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>48.400 ms</td>
+          <td>49.600 ms</td>
+          <td>49.600 ms</td>
+          <td>45.700 ms</td>
+          <td>49.600 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>datetime</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>504.300 ms</td>
+          <td>507.000 ms</td>
+          <td>507.000 ms</td>
+          <td>471.900 ms</td>
+          <td>507.000 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>datetime</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>45.600 ms</td>
+          <td>47.400 ms</td>
+          <td>47.400 ms</td>
+          <td>44.400 ms</td>
+          <td>47.400 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>datetime</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>462.600 ms</td>
+          <td>462.800 ms</td>
+          <td>462.800 ms</td>
+          <td>462.100 ms</td>
+          <td>462.800 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>basic</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>29.200 ms</td>
+          <td>30.100 ms</td>
+          <td>30.100 ms</td>
+          <td>26.100 ms</td>
+          <td>30.100 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>basic</td>
+          <td>asc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>607.400 ms</td>
+          <td>648.700 ms</td>
+          <td>648.700 ms</td>
+          <td>534.000 ms</td>
+          <td>648.700 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>basic</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>33.200 ms</td>
+          <td>37.300 ms</td>
+          <td>37.300 ms</td>
+          <td>32.900 ms</td>
+          <td>37.300 ms</td>
+          <td>30,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>sorting</td>
+          <td>basic</td>
+          <td>desc</td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>631.500 ms</td>
+          <td>642.300 ms</td>
+          <td>642.300 ms</td>
+          <td>627.300 ms</td>
+          <td>642.300 ms</td>
+          <td>300,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>includesString</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>8.800 ms</td>
+          <td>9.800 ms</td>
+          <td>9.800 ms</td>
+          <td>7.400 ms</td>
+          <td>9.800 ms</td>
+          <td>152</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>includesString</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>69.200 ms</td>
+          <td>94.600 ms</td>
+          <td>94.600 ms</td>
+          <td>67.800 ms</td>
+          <td>94.600 ms</td>
+          <td>1,673</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>includesStringSensitive</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>8.300 ms</td>
+          <td>9.700 ms</td>
+          <td>9.700 ms</td>
+          <td>6.700 ms</td>
+          <td>9.700 ms</td>
+          <td>81</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>includesStringSensitive</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>76.800 ms</td>
+          <td>76.900 ms</td>
+          <td>76.900 ms</td>
+          <td>76.700 ms</td>
+          <td>76.900 ms</td>
+          <td>959</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>equalsString</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>7.900 ms</td>
+          <td>10.600 ms</td>
+          <td>10.600 ms</td>
+          <td>7.800 ms</td>
+          <td>10.600 ms</td>
+          <td>10,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>equalsString</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>87.400 ms</td>
+          <td>141.200 ms</td>
+          <td>141.200 ms</td>
+          <td>81.700 ms</td>
+          <td>141.200 ms</td>
+          <td>100,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludes</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>10.500 ms</td>
+          <td>11.000 ms</td>
+          <td>11.000 ms</td>
+          <td>8.100 ms</td>
+          <td>11.000 ms</td>
+          <td>18,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludes</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>82.600 ms</td>
+          <td>82.700 ms</td>
+          <td>82.700 ms</td>
+          <td>82.200 ms</td>
+          <td>82.700 ms</td>
+          <td>180,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludesAll</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>7.800 ms</td>
+          <td>10.400 ms</td>
+          <td>10.400 ms</td>
+          <td>7.500 ms</td>
+          <td>10.400 ms</td>
+          <td>12,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludesAll</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>82.900 ms</td>
+          <td>84.300 ms</td>
+          <td>84.300 ms</td>
+          <td>81.100 ms</td>
+          <td>84.300 ms</td>
+          <td>120,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludesSome</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>10.900 ms</td>
+          <td>10.900 ms</td>
+          <td>10.900 ms</td>
+          <td>8.000 ms</td>
+          <td>10.900 ms</td>
+          <td>24,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludesSome</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>82.600 ms</td>
+          <td>85.400 ms</td>
+          <td>85.400 ms</td>
+          <td>81.900 ms</td>
+          <td>85.400 ms</td>
+          <td>240,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>equals</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>6.800 ms</td>
+          <td>9.200 ms</td>
+          <td>9.200 ms</td>
+          <td>6.700 ms</td>
+          <td>9.200 ms</td>
+          <td>30</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>equals</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>73.100 ms</td>
+          <td>75.100 ms</td>
+          <td>75.100 ms</td>
+          <td>72.000 ms</td>
+          <td>75.100 ms</td>
+          <td>300</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>weakEquals</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>9.500 ms</td>
+          <td>9.600 ms</td>
+          <td>9.600 ms</td>
+          <td>6.500 ms</td>
+          <td>9.600 ms</td>
+          <td>30</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>weakEquals</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>73.800 ms</td>
+          <td>74.300 ms</td>
+          <td>74.300 ms</td>
+          <td>73.100 ms</td>
+          <td>74.300 ms</td>
+          <td>300</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>inNumberRange</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>7.600 ms</td>
+          <td>9.900 ms</td>
+          <td>9.900 ms</td>
+          <td>7.100 ms</td>
+          <td>9.900 ms</td>
+          <td>5,700</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>inNumberRange</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>86.200 ms</td>
+          <td>86.900 ms</td>
+          <td>86.900 ms</td>
+          <td>85.200 ms</td>
+          <td>86.900 ms</td>
+          <td>57,003</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>includesString</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>7.500 ms</td>
+          <td>12.100 ms</td>
+          <td>12.100 ms</td>
+          <td>5.600 ms</td>
+          <td>12.100 ms</td>
+          <td>152</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>includesString</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>66.500 ms</td>
+          <td>86.600 ms</td>
+          <td>86.600 ms</td>
+          <td>56.800 ms</td>
+          <td>86.600 ms</td>
+          <td>1,673</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>includesStringSensitive</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>5.100 ms</td>
+          <td>6.200 ms</td>
+          <td>6.200 ms</td>
+          <td>3.700 ms</td>
+          <td>6.200 ms</td>
+          <td>81</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>includesStringSensitive</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>53.800 ms</td>
+          <td>55.100 ms</td>
+          <td>55.100 ms</td>
+          <td>52.100 ms</td>
+          <td>55.100 ms</td>
+          <td>959</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>equalsString</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>6.400 ms</td>
+          <td>7.000 ms</td>
+          <td>7.000 ms</td>
+          <td>4.900 ms</td>
+          <td>7.000 ms</td>
+          <td>10,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>equalsString</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>80.800 ms</td>
+          <td>143.000 ms</td>
+          <td>143.000 ms</td>
+          <td>55.200 ms</td>
+          <td>143.000 ms</td>
+          <td>100,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludes</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>4.000 ms</td>
+          <td>6.400 ms</td>
+          <td>6.400 ms</td>
+          <td>4.000 ms</td>
+          <td>6.400 ms</td>
+          <td>18,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludes</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>53.700 ms</td>
+          <td>56.300 ms</td>
+          <td>56.300 ms</td>
+          <td>53.200 ms</td>
+          <td>56.300 ms</td>
+          <td>180,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludesAll</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>6.500 ms</td>
+          <td>6.800 ms</td>
+          <td>6.800 ms</td>
+          <td>4.200 ms</td>
+          <td>6.800 ms</td>
+          <td>12,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludesAll</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>55.200 ms</td>
+          <td>56.700 ms</td>
+          <td>56.700 ms</td>
+          <td>49.900 ms</td>
+          <td>56.700 ms</td>
+          <td>120,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludesSome</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>7.400 ms</td>
+          <td>8.000 ms</td>
+          <td>8.000 ms</td>
+          <td>4.400 ms</td>
+          <td>8.000 ms</td>
+          <td>24,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrIncludesSome</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>61.700 ms</td>
+          <td>65.100 ms</td>
+          <td>65.100 ms</td>
+          <td>60.500 ms</td>
+          <td>65.100 ms</td>
+          <td>240,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>equals</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>6.500 ms</td>
+          <td>6.700 ms</td>
+          <td>6.700 ms</td>
+          <td>4.000 ms</td>
+          <td>6.700 ms</td>
+          <td>30</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>equals</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>66.700 ms</td>
+          <td>299.500 ms</td>
+          <td>299.500 ms</td>
+          <td>45.000 ms</td>
+          <td>299.500 ms</td>
+          <td>300</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>weakEquals</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>6.300 ms</td>
+          <td>6.800 ms</td>
+          <td>6.800 ms</td>
+          <td>3.500 ms</td>
+          <td>6.800 ms</td>
+          <td>30</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>weakEquals</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>43.800 ms</td>
+          <td>45.000 ms</td>
+          <td>45.000 ms</td>
+          <td>42.300 ms</td>
+          <td>45.000 ms</td>
+          <td>300</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>inNumberRange</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>6.700 ms</td>
+          <td>19.100 ms</td>
+          <td>19.100 ms</td>
+          <td>3.400 ms</td>
+          <td>19.100 ms</td>
+          <td>5,700</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>inNumberRange</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>53.600 ms</td>
+          <td>56.400 ms</td>
+          <td>56.400 ms</td>
+          <td>52.300 ms</td>
+          <td>56.400 ms</td>
+          <td>57,003</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrHas</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>7.500 ms</td>
+          <td>8.600 ms</td>
+          <td>8.600 ms</td>
+          <td>4.300 ms</td>
+          <td>8.600 ms</td>
+          <td>20,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>arrHas</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>74.100 ms</td>
+          <td>255.400 ms</td>
+          <td>255.400 ms</td>
+          <td>60.600 ms</td>
+          <td>255.400 ms</td>
+          <td>200,000</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>between</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>8.400 ms</td>
+          <td>8.600 ms</td>
+          <td>8.600 ms</td>
+          <td>7.900 ms</td>
+          <td>8.600 ms</td>
+          <td>7,500</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>between</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>58.600 ms</td>
+          <td>60.100 ms</td>
+          <td>60.100 ms</td>
+          <td>58.100 ms</td>
+          <td>60.100 ms</td>
+          <td>74,997</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>betweenInclusive</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>7.000 ms</td>
+          <td>7.200 ms</td>
+          <td>7.200 ms</td>
+          <td>4.500 ms</td>
+          <td>7.200 ms</td>
+          <td>7,500</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>filtering</td>
+          <td>betweenInclusive</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>59.600 ms</td>
+          <td>76.500 ms</td>
+          <td>76.500 ms</td>
+          <td>56.100 ms</td>
+          <td>76.500 ms</td>
+          <td>75,003</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>sum</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>27.400 ms</td>
+          <td>35.300 ms</td>
+          <td>35.300 ms</td>
+          <td>25.000 ms</td>
+          <td>35.300 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>sum</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>320.200 ms</td>
+          <td>335.500 ms</td>
+          <td>335.500 ms</td>
+          <td>315.200 ms</td>
+          <td>335.500 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>min</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>24.800 ms</td>
+          <td>26.100 ms</td>
+          <td>26.100 ms</td>
+          <td>24.300 ms</td>
+          <td>26.100 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>min</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>326.800 ms</td>
+          <td>326.900 ms</td>
+          <td>326.900 ms</td>
+          <td>326.300 ms</td>
+          <td>326.900 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>max</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>25.900 ms</td>
+          <td>26.300 ms</td>
+          <td>26.300 ms</td>
+          <td>25.600 ms</td>
+          <td>26.300 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>max</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>328.600 ms</td>
+          <td>330.000 ms</td>
+          <td>330.000 ms</td>
+          <td>322.800 ms</td>
+          <td>330.000 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>extent</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>26.200 ms</td>
+          <td>26.300 ms</td>
+          <td>26.300 ms</td>
+          <td>25.700 ms</td>
+          <td>26.300 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>extent</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>316.000 ms</td>
+          <td>329.700 ms</td>
+          <td>329.700 ms</td>
+          <td>312.700 ms</td>
+          <td>329.700 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>mean</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>25.700 ms</td>
+          <td>25.800 ms</td>
+          <td>25.800 ms</td>
+          <td>24.700 ms</td>
+          <td>25.800 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>mean</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>326.000 ms</td>
+          <td>340.900 ms</td>
+          <td>340.900 ms</td>
+          <td>319.800 ms</td>
+          <td>340.900 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>median</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>27.000 ms</td>
+          <td>27.400 ms</td>
+          <td>27.400 ms</td>
+          <td>26.100 ms</td>
+          <td>27.400 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>median</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>362.900 ms</td>
+          <td>366.500 ms</td>
+          <td>366.500 ms</td>
+          <td>347.800 ms</td>
+          <td>366.500 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>unique</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>25.600 ms</td>
+          <td>25.800 ms</td>
+          <td>25.800 ms</td>
+          <td>24.800 ms</td>
+          <td>25.800 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>unique</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>333.500 ms</td>
+          <td>335.200 ms</td>
+          <td>335.200 ms</td>
+          <td>332.300 ms</td>
+          <td>335.200 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>uniqueCount</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>24.100 ms</td>
+          <td>24.600 ms</td>
+          <td>24.600 ms</td>
+          <td>24.100 ms</td>
+          <td>24.600 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>uniqueCount</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>327.500 ms</td>
+          <td>330.400 ms</td>
+          <td>330.400 ms</td>
+          <td>314.500 ms</td>
+          <td>330.400 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>count</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v8</td>
+          <td>19.300 ms</td>
+          <td>21.700 ms</td>
+          <td>21.700 ms</td>
+          <td>17.200 ms</td>
+          <td>21.700 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>count</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v8</td>
+          <td>231.800 ms</td>
+          <td>251.100 ms</td>
+          <td>251.100 ms</td>
+          <td>226.000 ms</td>
+          <td>251.100 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>sum</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>11.500 ms</td>
+          <td>13.900 ms</td>
+          <td>13.900 ms</td>
+          <td>10.100 ms</td>
+          <td>13.900 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>sum</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>188.700 ms</td>
+          <td>212.000 ms</td>
+          <td>212.000 ms</td>
+          <td>152.800 ms</td>
+          <td>212.000 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>min</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>12.000 ms</td>
+          <td>15.800 ms</td>
+          <td>15.800 ms</td>
+          <td>12.000 ms</td>
+          <td>15.800 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>min</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>171.800 ms</td>
+          <td>179.200 ms</td>
+          <td>179.200 ms</td>
+          <td>164.300 ms</td>
+          <td>179.200 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>max</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>9.800 ms</td>
+          <td>10.000 ms</td>
+          <td>10.000 ms</td>
+          <td>9.500 ms</td>
+          <td>10.000 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>max</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>178.300 ms</td>
+          <td>184.800 ms</td>
+          <td>184.800 ms</td>
+          <td>176.400 ms</td>
+          <td>184.800 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>extent</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>8.900 ms</td>
+          <td>10.800 ms</td>
+          <td>10.800 ms</td>
+          <td>8.700 ms</td>
+          <td>10.800 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>extent</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>186.300 ms</td>
+          <td>191.700 ms</td>
+          <td>191.700 ms</td>
+          <td>181.600 ms</td>
+          <td>191.700 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>mean</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>9.300 ms</td>
+          <td>14.200 ms</td>
+          <td>14.200 ms</td>
+          <td>9.100 ms</td>
+          <td>14.200 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>mean</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>180.600 ms</td>
+          <td>204.300 ms</td>
+          <td>204.300 ms</td>
+          <td>173.700 ms</td>
+          <td>204.300 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>median</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>15.500 ms</td>
+          <td>15.600 ms</td>
+          <td>15.600 ms</td>
+          <td>15.300 ms</td>
+          <td>15.600 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>median</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>186.000 ms</td>
+          <td>193.200 ms</td>
+          <td>193.200 ms</td>
+          <td>184.800 ms</td>
+          <td>193.200 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>unique</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>11.300 ms</td>
+          <td>13.300 ms</td>
+          <td>13.300 ms</td>
+          <td>9.700 ms</td>
+          <td>13.300 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>unique</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>170.700 ms</td>
+          <td>198.200 ms</td>
+          <td>198.200 ms</td>
+          <td>164.600 ms</td>
+          <td>198.200 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>uniqueCount</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>8.700 ms</td>
+          <td>9.100 ms</td>
+          <td>9.100 ms</td>
+          <td>8.700 ms</td>
+          <td>9.100 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>uniqueCount</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>173.700 ms</td>
+          <td>175.300 ms</td>
+          <td>175.300 ms</td>
+          <td>172.800 ms</td>
+          <td>175.300 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>count</td>
+          <td></td>
+          <td>operation</td>
+          <td>30,000</td>
+          <td>v9</td>
+          <td>5.100 ms</td>
+          <td>5.200 ms</td>
+          <td>5.200 ms</td>
+          <td>5.000 ms</td>
+          <td>5.200 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+<tr>
+          <td>aggregation</td>
+          <td>count</td>
+          <td></td>
+          <td>operation</td>
+          <td>300,000</td>
+          <td>v9</td>
+          <td>82.700 ms</td>
+          <td>95.500 ms</td>
+          <td>95.500 ms</td>
+          <td>78.700 ms</td>
+          <td>95.500 ms</td>
+          <td>20</td>
+          <td class="ok">yes</td>
+          <td>3</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -6,6 +6,8 @@
   "scripts": {
     "install:examples": "pnpm install",
     "bench:memory": "tsx scripts/run-memory-bench.ts",
+    "bench:performance": "tsx scripts/run-performance-bench.ts",
+    "generate:performance-data": "tsx scripts/generate-performance-data.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -13,6 +15,7 @@
     "tsx": "^4.21.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.1.0",
     "@types/node": "^25.9.3",
     "typescript": "^6.0.3"
   }
