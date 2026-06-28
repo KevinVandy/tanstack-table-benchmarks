@@ -27,6 +27,48 @@ Shared deterministic data, config parsing, and CSS live in `shared/src`.
 pnpm install
 ```
 
+## v9 Version Maintenance
+
+Keep the tracked `examples/v9/*` examples on the latest published v9 beta before using them as the baseline for PR comparisons. Update every v9 example that depends on `@tanstack/react-table` and/or `@tanstack/table-core`, then refresh only the tracked v9 workspace importers in the lockfile:
+
+```sh
+VERSION=9.0.0-beta.21
+
+for d in examples/v9/*; do
+  if [ -f "$d/package.json" ]; then
+    node -e "const p=require('./$d/package.json'); process.exit(p.dependencies?.['@tanstack/react-table'] ? 0 : 1)" &&
+      (cd "$d" && npm pkg set "dependencies.@tanstack/react-table=$VERSION")
+    node -e "const p=require('./$d/package.json'); process.exit(p.dependencies?.['@tanstack/table-core'] ? 0 : 1)" &&
+      (cd "$d" && npm pkg set "dependencies.@tanstack/table-core=$VERSION")
+  fi
+done
+
+pnpm install --lockfile-only --filter './examples/v9/**'
+```
+
+## PR Preview Setup
+
+To compare a table PR against the current v9 baseline, copy the tracked v9 examples to a temporary folder and install the PR preview packages into the copy. Use a unique package name for each copied example so pnpm workspace discovery does not see duplicate package names:
+
+```sh
+PR=6347
+TEMP="examples/v9-pr-temp-$PR"
+
+cp -R examples/v9 "$TEMP"
+
+for d in "$TEMP"/*; do
+  if [ -f "$d/package.json" ]; then
+    name="benchmark-table-v9-pr-$PR-$(basename "$d")"
+    (cd "$d" && npm pkg set "name=$name")
+    (cd "$d" && npm install --force --prefer-online \
+      "https://pkg.pr.new/TanStack/table/@tanstack/table-core@$PR" \
+      "https://pkg.pr.new/TanStack/table/@tanstack/react-table@$PR")
+  fi
+done
+```
+
+These `v9-pr-temp-*` folders are intended as local benchmark fixtures. Do not treat their generated package locks, builds, or result files as part of the normal tracked benchmark baseline unless a specific comparison needs to be preserved.
+
 ## Run
 
 ```sh
